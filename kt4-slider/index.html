@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>КТ №4. Слайдер</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="intro">
+      <h1>Слайдер на событиях мыши</h1>
+      <p>Перетащите бегунок или щёлкните по шкале. Выбранное значение отображается над бегунком. Стрелки клавиатуры тоже работают.</p>
+    </header>
+
+    <section class="panel">
+      <h2>Громкость</h2>
+      <div class="slider" data-label="Громкость" data-min="0" data-max="100" data-step="1" data-value="40" data-suffix="%"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Бюджет</h2>
+      <div class="slider" data-label="Бюджет" data-min="1000" data-max="50000" data-step="500" data-value="15000" data-suffix=" ₽"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Температура</h2>
+      <div class="slider" data-label="Температура" data-min="-10" data-max="40" data-step="0.5" data-value="22" data-suffix=" °C"></div>
+    </section>
+  </main>
+  <script src="slider.js"></script>
+</body>
+</html>

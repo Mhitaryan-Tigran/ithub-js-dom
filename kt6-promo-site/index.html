@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пенка — кофейня</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 11h19l-2 13a5 5 0 0 1-5 4h-5a5 5 0 0 1-5-4z" fill="currentColor"/><path d="M24 14a4 4 0 1 1-1 8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M11 3c-2 2 2 3 0 6M17 3c-2 2 2 3 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Пенка</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть навигацию">☰</button>
+    <nav class="nav" id="nav">
+      <a href="index.html" aria-current="page">Главная</a>
+      <a href="menu.html">Меню</a>
+      <a href="about.html">О нас</a>
+      <a href="contact.html">Контакты</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <canvas class="hero__steam" id="steam" aria-hidden="true"></canvas>
+      <div class="hero__copy" id="hero-copy">
+        <p class="eyebrow">Кофейня у дома</p>
+        <h1>Кофе, ради которого стоит проснуться</h1>
+        <p>Обжариваем зерно сами, взбиваем пену вручную и знаем постоянных гостей по имени.</p>
+        <div class="actions">
+          <a class="button" href="menu.html">Смотреть меню</a>
+          <a class="button button--ghost" href="contact.html">Как нас найти</a>
+        </div>
+        <p class="badge" id="steam-state">Пар: вкл</p>
+      </div>
+      <div class="hero__art">
+        <svg class="cup" id="cup" viewBox="0 0 200 200" aria-label="Чашка капучино" role="img">
+          <ellipse cx="95" cy="170" rx="82" ry="16" fill="#e8d5c0"/>
+          <path d="M148 88a22 22 0 1 1-6 44" fill="none" stroke="#fdf8f2" stroke-width="11"/>
+          <path d="M38 70h114l-12 82a20 20 0 0 1-20 16H70a20 20 0 0 1-20-16z" fill="#fdf8f2"/>
+          <ellipse cx="95" cy="70" rx="57" ry="11" fill="#6b3e26"/>
+          <path d="M95 76c-5-3-11-6-11-10a5 5 0 0 1 11-1 5 5 0 0 1 11 1c0 4-6 7-11 10z" fill="#f5e6d3" transform="translate(95 70) scale(1 0.55) translate(-95 -70)"/>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Почему к нам возвращаются</h2>
+      <div class="grid">
+        <article class="tile">
+          <h3>Своя обжарка</h3>
+          <p>Каждую неделю обжариваем свежую партию, поэтому в чашке нет горечи пересушенного зерна.</p>
+        </article>
+        <article class="tile">
+          <h3>Пена как облако</h3>
+          <p>Молоко взбиваем ровно до 62 градусов: так пена держит рисунок до последнего глотка.</p>
+        </article>
+        <article class="tile">
+          <h3>Десерты утром</h3>
+          <p>Круассаны и чизкейки печём на месте с семи утра, к первому кофе всё уже тёплое.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <details class="hint" open>
+    <summary>Управление</summary>
+    <ul>
+      <li><kbd>Мышь</kbd> по первому экрану: параллакс и пар за курсором</li>
+      <li><kbd>Щелчок</kbd> облачко пара</li>
+      <li><kbd>←</kbd> <kbd>→</kbd> наклонить чашку</li>
+      <li><kbd>↑</kbd> <kbd>↓</kbd> поднять или опустить чашку</li>
+      <li><kbd>Пробел</kbd> пар вкл/выкл</li>
+      <li><kbd>Esc</kbd> вернуть чашку на место</li>
+    </ul>
+  </details>
+
+  <footer class="footer">Кофейня «Пенка» — вымышленный бренд учебного проекта</footer>
+
+  <script src="js/shared.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

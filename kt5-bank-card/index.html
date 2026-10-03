@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>КТ №5. Банковская карта</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <h1>Оформление банковской карты</h1>
+
+    <div class="layout">
+      <form class="form" id="card-form" novalidate>
+        <label class="field">
+          <span>Банк</span>
+          <select name="bank">
+            <option value="">Выберите банк</option>
+          </select>
+          <small class="error" data-error-for="bank"></small>
+        </label>
+
+        <label class="field">
+          <span>Платёжная система</span>
+          <select name="system">
+            <option value="">Выберите систему</option>
+          </select>
+          <small class="error" data-error-for="system"></small>
+        </label>
+
+        <label class="field">
+          <span>Номер карты</span>
+          <input name="number" inputmode="numeric" autocomplete="cc-number" maxlength="19" placeholder="0000 0000 0000 0000">
+          <small class="error" data-error-for="number"></small>
+        </label>
+
+        <label class="field">
+          <span>Имя держателя (латиницей)</span>
+          <input name="holder" autocomplete="cc-name" placeholder="IVAN IVANOV">
+          <small class="error" data-error-for="holder"></small>
+        </label>
+
+        <fieldset class="field">
+          <legend>Срок действия</legend>
+          <div class="row">
+            <select name="month" aria-label="Месяц">
+              <option value="">Месяц</option>
+            </select>
+            <select name="year" aria-label="Год">
+              <option value="">Год</option>
+            </select>
+          </div>
+          <small class="error" data-error-for="expiry"></small>
+        </fieldset>
+
+        <button class="submit" type="submit">Добавить карту</button>
+      </form>
+
+      <aside class="preview-wrap">
+        <div class="card" id="card-preview">
+          <div class="card__top">
+            <div class="card__bank" id="preview-bank"></div>
+            <div class="card__chip"></div>
+          </div>
+          <div class="card__number" id="preview-number"></div>
+          <div class="card__bottom">
+            <div>
+              <div class="card__label">Держатель</div>
+              <div class="card__holder" id="preview-holder"></div>
+            </div>
+            <div>
+              <div class="card__label">Срок</div>
+              <div class="card__expiry" id="preview-expiry"></div>
+            </div>
+            <div class="card__system" id="preview-system"></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="saved">
+      <h2>Добавленные карты</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Банк</th>
+              <th>Система</th>
+              <th>Номер</th>
+              <th>Держатель</th>
+              <th>Срок</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cards-body"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="cards-empty">Карт пока нет. Заполните форму и нажмите «Добавить карту».</p>
+    </section>
+  </main>
+  <script src="card.js"></script>
+</body>
+</html>

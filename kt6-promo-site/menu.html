@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Меню — Пенка</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 11h19l-2 13a5 5 0 0 1-5 4h-5a5 5 0 0 1-5-4z" fill="currentColor"/><path d="M24 14a4 4 0 1 1-1 8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M11 3c-2 2 2 3 0 6M17 3c-2 2 2 3 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Пенка</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть навигацию">☰</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Главная</a>
+      <a href="menu.html" aria-current="page">Меню</a>
+      <a href="about.html">О нас</a>
+      <a href="contact.html">Контакты</a>
+    </nav>
+  </header>
+
+  <main class="section">
+    <h1>Меню</h1>
+    <p class="lead">Наведите курсор на карточку, выберите категорию или просто начните печатать название.</p>
+
+    <div class="toolbar">
+      <input class="search" id="search" type="search" placeholder="Найти напиток или десерт" aria-label="Поиск по меню">
+      <div class="filters">
+        <button class="filter" type="button" data-category="all" aria-pressed="true"><kbd>1</kbd> Всё</button>
+        <button class="filter" type="button" data-category="classic" aria-pressed="false"><kbd>2</kbd> Классика</button>
+        <button class="filter" type="button" data-category="signature" aria-pressed="false"><kbd>3</kbd> Авторские</button>
+        <button class="filter" type="button" data-category="cold" aria-pressed="false"><kbd>4</kbd> Холодные</button>
+        <button class="filter" type="button" data-category="dessert" aria-pressed="false"><kbd>5</kbd> Десерты</button>
+      </div>
+    </div>
+    <p class="count" id="menu-count"></p>
+
+    <div class="menu-grid">
+      <article class="item" data-category="classic"><div class="item__inner" style="--drink: #3b2416"><span class="item__swatch"></span><h3>Эспрессо</h3><p>Плотный, с ореховой кислинкой</p><strong>150 ₽</strong></div></article>
+      <article class="item" data-category="classic"><div class="item__inner" style="--drink: #c79a6b"><span class="item__swatch"></span><h3>Капучино</h3><p>Эспрессо и бархатная молочная пена</p><strong>220 ₽</strong></div></article>
+      <article class="item" data-category="classic"><div class="item__inner" style="--drink: #a8744a"><span class="item__swatch"></span><h3>Флэт уайт</h3><p>Двойной эспрессо и тонкий слой молока</p><strong>240 ₽</strong></div></article>
+      <article class="item" data-category="signature"><div class="item__inner" style="--drink: #b9a3d6"><span class="item__swatch"></span><h3>Лавандовый раф</h3><p>Сливки, ваниль и цветы лаванды</p><strong>290 ₽</strong></div></article>
+      <article class="item" data-category="signature"><div class="item__inner" style="--drink: #d9a066"><span class="item__swatch"></span><h3>Пенка-латте</h3><p>Солёная карамель и двойная пена</p><strong>280 ₽</strong></div></article>
+      <article class="item" data-category="cold"><div class="item__inner" style="--drink: #4a2c1a"><span class="item__swatch"></span><h3>Колд брю</h3><p>Настаивается 16 часов, без горечи</p><strong>260 ₽</strong></div></article>
+      <article class="item" data-category="cold"><div class="item__inner" style="--drink: #e8c27a"><span class="item__swatch"></span><h3>Эспрессо-тоник</h3><p>Тоник, лёд и цитрусовый эспрессо</p><strong>270 ₽</strong></div></article>
+      <article class="item" data-category="dessert"><div class="item__inner" style="--drink: #f3d9b5"><span class="item__swatch"></span><h3>Чизкейк</h3><p>Нью-Йорк с ягодным соусом</p><strong>320 ₽</strong></div></article>
+      <article class="item" data-category="dessert"><div class="item__inner" style="--drink: #e3a857"><span class="item__swatch"></span><h3>Круассан</h3><p>Французское масло и хрустящие слои</p><strong>180 ₽</strong></div></article>
+    </div>
+    <p class="empty" id="menu-empty" hidden>Ничего не нашлось. Нажмите <kbd>Esc</kbd> в поиске или <kbd>1</kbd>, чтобы показать всё.</p>
+  </main>
+
+  <details class="hint" open>
+    <summary>Управление</summary>
+    <ul>
+      <li><kbd>Мышь</kbd> над карточкой: 3D-наклон и блик</li>
+      <li><kbd>Щелчок</kbd> по категории: фильтр с анимацией</li>
+      <li><kbd>1</kbd>–<kbd>5</kbd> выбрать категорию</li>
+      <li><kbd>Буква</kbd> или <kbd>/</kbd> начать поиск</li>
+      <li><kbd>Esc</kbd> очистить поиск</li>
+    </ul>
+  </details>
+
+  <footer class="footer">Кофейня «Пенка» — вымышленный бренд учебного проекта</footer>
+
+  <script src="js/shared.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+</html>

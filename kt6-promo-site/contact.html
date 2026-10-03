@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контакты — Пенка</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 11h19l-2 13a5 5 0 0 1-5 4h-5a5 5 0 0 1-5-4z" fill="currentColor"/><path d="M24 14a4 4 0 1 1-1 8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M11 3c-2 2 2 3 0 6M17 3c-2 2 2 3 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Пенка</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть навигацию">☰</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Главная</a>
+      <a href="menu.html">Меню</a>
+      <a href="about.html">О нас</a>
+      <a href="contact.html" aria-current="page">Контакты</a>
+    </nav>
+  </header>
+
+  <main class="section">
+    <h1>Контакты</h1>
+    <p class="lead">Забронируйте столик, закажите зерно или просто напишите нам.</p>
+
+    <div class="contact">
+      <form class="contact__form" id="contact-form" novalidate>
+        <div class="progress">
+          <span>Готовность формы</span>
+          <span id="progress-label">0%</span>
+          <div class="progress__track"><div class="progress__bar" id="progress-bar"></div></div>
+        </div>
+
+        <label class="field">
+          <span>Имя</span>
+          <input name="name" autocomplete="name" placeholder="Анна">
+          <small class="error"></small>
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" placeholder="anna@mail.ru">
+          <small class="error"></small>
+        </label>
+
+        <label class="field">
+          <span>Сообщение</span>
+          <textarea name="message" rows="5" placeholder="Хочу забронировать столик на субботу"></textarea>
+          <small class="error"></small>
+        </label>
+
+        <div class="magnet-zone" id="magnet-zone">
+          <button class="button magnet" id="send" type="submit">Отправить</button>
+        </div>
+        <p class="success" id="success" role="status"></p>
+      </form>
+
+      <aside class="contact__info">
+        <h2>Как нас найти</h2>
+        <p>г. Москва, Пенный переулок, 7</p>
+        <p>Ежедневно с 7:00 до 22:00</p>
+        <p>hello@penka.example</p>
+        <p>+7 900 000-00-00</p>
+      </aside>
+    </div>
+  </main>
+
+  <details class="hint" open>
+    <summary>Управление</summary>
+    <ul>
+      <li><kbd>Мышь</kbd> рядом с кнопкой: она тянется к курсору</li>
+      <li><kbd>Ввод</kbd> текста: проверка на лету и шкала готовности</li>
+      <li><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> отправить из сообщения</li>
+      <li>Ошибка при отправке: поле встряхивается</li>
+    </ul>
+  </details>
+
+  <footer class="footer">Кофейня «Пенка» — вымышленный бренд учебного проекта</footer>
+
+  <script src="js/shared.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
