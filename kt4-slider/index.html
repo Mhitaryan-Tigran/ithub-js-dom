@@ -1,33 +1,152 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>КТ №4. Слайдер</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проявка — панель коррекции</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="page">
-    <header class="intro">
-      <h1>Слайдер на событиях мыши</h1>
-      <p>Перетащите бегунок или щёлкните по шкале. Выбранное значение отображается над бегунком. Стрелки клавиатуры тоже работают.</p>
-    </header>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Проявка</span>
+    </div>
+    <div class="topbar-meta">
+      <span class="file-name">lake_sunset.raw</span>
+      <span class="file-size">6016 × 4512</span>
+    </div>
+  </header>
 
-    <section class="panel">
-      <h2>Громкость</h2>
-      <div class="slider" data-label="Громкость" data-min="0" data-max="100" data-step="1" data-value="40" data-suffix="%"></div>
-    </section>
+  <section class="stage">
+    <div class="preview" id="preview">
+      <svg class="scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-label="Закат над горным озером">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#1b1f4a"/>
+            <stop offset="0.45" stop-color="#6a3b7a"/>
+            <stop offset="0.72" stop-color="#e2704a"/>
+            <stop offset="0.9" stop-color="#f7c168"/>
+          </linearGradient>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f1a85b"/>
+            <stop offset="0.3" stop-color="#a24f5e"/>
+            <stop offset="1" stop-color="#1a1a3a"/>
+          </linearGradient>
+          <radialGradient id="sunGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#fff4d6" stop-opacity="1"/>
+            <stop offset="0.35" stop-color="#ffd27a" stop-opacity="0.75"/>
+            <stop offset="1" stop-color="#ff9a4a" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="farHill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#7a4f7f"/>
+            <stop offset="1" stop-color="#4a3360"/>
+          </linearGradient>
+          <linearGradient id="midHill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4b2f58"/>
+            <stop offset="1" stop-color="#2d1f3f"/>
+          </linearGradient>
+          <linearGradient id="nearHill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#211a33"/>
+            <stop offset="1" stop-color="#120e1f"/>
+          </linearGradient>
+          <filter id="grainFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
+        </defs>
+        <rect width="1200" height="800" fill="url(#sky)"/>
+        <g fill="#fff6e0" opacity="0.8">
+          <circle cx="90" cy="70" r="1.6"/><circle cx="210" cy="120" r="1.2"/><circle cx="340" cy="50" r="1.8"/>
+          <circle cx="470" cy="140" r="1.1"/><circle cx="560" cy="80" r="1.5"/><circle cx="700" cy="40" r="1.3"/>
+          <circle cx="880" cy="110" r="1.7"/><circle cx="1010" cy="60" r="1.2"/><circle cx="1130" cy="150" r="1.4"/>
+          <circle cx="150" cy="200" r="1"/><circle cx="640" cy="190" r="1.1"/><circle cx="960" cy="180" r="1"/>
+        </g>
+        <circle cx="760" cy="470" r="260" fill="url(#sunGlow)"/>
+        <circle cx="760" cy="470" r="62" fill="#fff1c9"/>
+        <g fill="#f3b26a" opacity="0.55">
+          <ellipse cx="300" cy="300" rx="190" ry="14"/>
+          <ellipse cx="420" cy="330" rx="130" ry="10"/>
+          <ellipse cx="950" cy="260" rx="160" ry="12"/>
+          <ellipse cx="1080" cy="300" rx="90" ry="8"/>
+        </g>
+        <polygon fill="url(#farHill)" points="0,520 120,440 260,480 380,400 500,470 620,420 720,480 840,430 960,490 1080,440 1200,500 1200,560 0,560"/>
+        <polygon fill="url(#midHill)" points="0,560 90,520 200,545 310,500 420,540 540,505 650,550 760,510 870,555 980,515 1090,550 1200,520 1200,580 0,580"/>
+        <rect y="560" width="1200" height="240" fill="url(#water)"/>
+        <ellipse cx="760" cy="590" rx="120" ry="18" fill="#ffe9b8" opacity="0.7"/>
+        <g fill="#ffd79a" opacity="0.4">
+          <rect x="690" y="620" width="140" height="4" rx="2"/>
+          <rect x="705" y="640" width="110" height="3" rx="2"/>
+          <rect x="670" y="665" width="180" height="4" rx="2"/>
+          <rect x="720" y="695" width="80" height="3" rx="2"/>
+          <rect x="650" y="730" width="220" height="4" rx="2"/>
+        </g>
+        <polygon fill="url(#nearHill)" points="0,800 0,660 80,640 160,680 240,650 330,690 400,660 460,700 520,680 600,720 680,700 760,740 850,710 940,750 1020,720 1120,760 1200,730 1200,800"/>
+        <g fill="#0d0a18">
+          <polygon points="130,660 150,590 170,660"/>
+          <polygon points="160,672 185,585 210,672"/>
+          <polygon points="200,668 218,610 236,668"/>
+          <polygon points="1000,728 1022,650 1044,728"/>
+          <polygon points="1040,740 1058,672 1076,740"/>
+        </g>
+      </svg>
+      <div class="layer layer-temp"></div>
+      <div class="layer layer-vignette"></div>
+      <div class="layer layer-grain"></div>
+      <div class="preview-badge" id="compareBadge">Оригинал</div>
+    </div>
+    <div class="stage-bar">
+      <div class="presets" id="presets">
+        <button class="chip is-active" type="button" data-preset="none">Без обработки</button>
+        <button class="chip" type="button" data-preset="cinema">Кино</button>
+        <button class="chip" type="button" data-preset="warm">Золотой час</button>
+        <button class="chip" type="button" data-preset="cold">Северный</button>
+        <button class="chip" type="button" data-preset="film">Плёнка</button>
+      </div>
+      <button class="ghost-btn" type="button" id="compareBtn">Удерживайте — оригинал</button>
+    </div>
+  </section>
 
-    <section class="panel">
-      <h2>Бюджет</h2>
-      <div class="slider" data-label="Бюджет" data-min="1000" data-max="50000" data-step="500" data-value="15000" data-suffix=" ₽"></div>
-    </section>
+  <aside class="panel">
+    <div class="panel-head">
+      <h1 class="panel-title">Коррекция</h1>
+      <button class="ghost-btn" type="button" id="resetBtn">Сбросить</button>
+    </div>
 
-    <section class="panel">
-      <h2>Температура</h2>
-      <div class="slider" data-label="Температура" data-min="-10" data-max="40" data-step="0.5" data-value="22" data-suffix=" °C"></div>
-    </section>
-  </main>
-  <script src="slider.js"></script>
+    <div class="group">
+      <div class="group-label">Свет</div>
+      <div class="control" data-id="exposure" data-min="-100" data-max="100" data-step="1" data-value="0" data-bipolar>
+        <div class="control-head"><span class="control-name">Экспозиция</span></div>
+      </div>
+      <div class="control" data-id="contrast" data-min="-100" data-max="100" data-step="1" data-value="0" data-bipolar>
+        <div class="control-head"><span class="control-name">Контраст</span></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Цвет</div>
+      <div class="control" data-id="saturation" data-min="0" data-max="200" data-step="1" data-value="100" data-suffix="%">
+        <div class="control-head"><span class="control-name">Насыщенность</span></div>
+      </div>
+      <div class="control" data-id="temperature" data-min="-50" data-max="50" data-step="1" data-value="0" data-bipolar>
+        <div class="control-head"><span class="control-name">Температура</span></div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">Эффекты</div>
+      <div class="control" data-id="vignette" data-min="0" data-max="100" data-step="5" data-value="0" data-suffix="%" data-ticks>
+        <div class="control-head"><span class="control-name">Виньетка</span></div>
+      </div>
+      <div class="control" data-id="grain" data-min="0" data-max="100" data-step="10" data-value="0" data-suffix="%" data-ticks>
+        <div class="control-head"><span class="control-name">Зерно</span></div>
+      </div>
+    </div>
+
+    <p class="hint">Перетащите бегунок мышью · <kbd>←</kbd> <kbd>→</kbd> шаг · <kbd>Shift</kbd> ×10 · двойной клик — сброс</p>
+  </aside>
+</main>
+<script src="slider.js"></script>
 </body>
 </html>

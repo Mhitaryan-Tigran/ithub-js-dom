@@ -1,81 +1,96 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Пенка — кофейня</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ВОЛНА·7 — аналоговый синтезатор</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="header">
-    <a class="logo" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 11h19l-2 13a5 5 0 0 1-5 4h-5a5 5 0 0 1-5-4z" fill="currentColor"/><path d="M24 14a4 4 0 1 1-1 8" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M11 3c-2 2 2 3 0 6M17 3c-2 2 2 3 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Пенка</a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Открыть навигацию">☰</button>
-    <nav class="nav" id="nav">
-      <a href="index.html" aria-current="page">Главная</a>
-      <a href="menu.html">Меню</a>
-      <a href="about.html">О нас</a>
-      <a href="contact.html">Контакты</a>
-    </nav>
+  <div class="curtain"><span>Волна</span></div>
+  <div class="glow"></div>
+
+  <nav class="nav">
+    <a class="logo" href="index.html" data-label="Волна"><i></i>ВОЛНА·7</a>
+    <div class="menu">
+      <a href="index.html" data-label="Главная">Главная</a>
+      <a href="product.html" data-label="Устройство">Устройство</a>
+      <a href="gallery.html" data-label="Истории">Истории</a>
+      <a href="order.html" data-label="Заказ">Заказ</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <canvas id="scope"></canvas>
+    <div class="wrap">
+      <p class="eyebrow">Аналоговый синтезатор · 2026</p>
+      <div class="hero-grid">
+        <h1 class="display" data-accent="1">Волна семь</h1>
+        <div class="hero-meta">
+          <div><b>7</b> голосов полифонии</div>
+          <div><b>2</b> аналоговых осциллятора</div>
+          <div><b>61</b> клавиша</div>
+        </div>
+      </div>
+      <div class="piano" id="piano">
+        <div class="key" data-note="0" data-k="a">A</div>
+        <div class="key black" data-note="1" data-k="w">W</div>
+        <div class="key" data-note="2" data-k="s">S</div>
+        <div class="key black" data-note="3" data-k="e">E</div>
+        <div class="key" data-note="4" data-k="d">D</div>
+        <div class="key" data-note="5" data-k="f">F</div>
+        <div class="key black" data-note="6" data-k="t">T</div>
+        <div class="key" data-note="7" data-k="g">G</div>
+        <div class="key black" data-note="8" data-k="y">Y</div>
+        <div class="key" data-note="9" data-k="h">H</div>
+        <div class="key black" data-note="10" data-k="u">U</div>
+        <div class="key" data-note="11" data-k="j">J</div>
+        <div class="key" data-note="12" data-k="k">K</div>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <canvas class="hero__steam" id="steam" aria-hidden="true"></canvas>
-      <div class="hero__copy" id="hero-copy">
-        <p class="eyebrow">Кофейня у дома</p>
-        <h1>Кофе, ради которого стоит проснуться</h1>
-        <p>Обжариваем зерно сами, взбиваем пену вручную и знаем постоянных гостей по имени.</p>
-        <div class="actions">
-          <a class="button" href="menu.html">Смотреть меню</a>
-          <a class="button button--ghost" href="contact.html">Как нас найти</a>
-        </div>
-        <p class="badge" id="steam-state">Пар: вкл</p>
+  <div class="ticker">
+    <div>
+      <span>Тёплый звук <b>•</b></span><span>Семь голосов <b>•</b></span><span>Аналоговый фильтр 24 дБ <b>•</b></span><span>Деревянные боковины <b>•</b></span><span>Собрано вручную <b>•</b></span><span>Два года гарантии <b>•</b></span>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="eyebrow">Зачем</p>
+        <h2 class="h2">Звук, который слышно кожей</h2>
       </div>
-      <div class="hero__art">
-        <svg class="cup" id="cup" viewBox="0 0 200 200" aria-label="Чашка капучино" role="img">
-          <ellipse cx="95" cy="170" rx="82" ry="16" fill="#e8d5c0"/>
-          <path d="M148 88a22 22 0 1 1-6 44" fill="none" stroke="#fdf8f2" stroke-width="11"/>
-          <path d="M38 70h114l-12 82a20 20 0 0 1-20 16H70a20 20 0 0 1-20-16z" fill="#fdf8f2"/>
-          <ellipse cx="95" cy="70" rx="57" ry="11" fill="#6b3e26"/>
-          <path d="M95 76c-5-3-11-6-11-10a5 5 0 0 1 11-1 5 5 0 0 1 11 1c0 4-6 7-11 10z" fill="#f5e6d3" transform="translate(95 70) scale(1 0.55) translate(-95 -70)"/>
-        </svg>
+      <div class="reveal" style="transition-delay: .15s">
+        <p class="lead">Мы не строили цифровую копию прошлого. ВОЛНА·7 — это полностью аналоговый сигнальный путь, семь независимых голосов и фильтр, который поёт на самоосцилляции. Корпус из тёплого ореха и алюминия сделан так, чтобы инструмент хотелось трогать.</p>
+        <p style="margin-top:32px"><a class="btn" href="product.html" data-label="Устройство">Рассмотреть устройство <span>→</span></a></p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section">
-      <h2>Почему к нам возвращаются</h2>
-      <div class="grid">
-        <article class="tile">
-          <h3>Своя обжарка</h3>
-          <p>Каждую неделю обжариваем свежую партию, поэтому в чашке нет горечи пересушенного зерна.</p>
-        </article>
-        <article class="tile">
-          <h3>Пена как облако</h3>
-          <p>Молоко взбиваем ровно до 62 градусов: так пена держит рисунок до последнего глотка.</p>
-        </article>
-        <article class="tile">
-          <h3>Десерты утром</h3>
-          <p>Круассаны и чизкейки печём на месте с семи утра, к первому кофе всё уже тёплое.</p>
-        </article>
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="stats reveal">
+        <div class="stat"><b data-to="7">0</b><span>голосов полифонии</span></div>
+        <div class="stat"><b data-to="24" data-suffix=" дБ">0</b><span>крутизна фильтра на октаву</span></div>
+        <div class="stat"><b data-to="4.2" data-decimals="1" data-suffix=" кг">0</b><span>вес с деревянными боковинами</span></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <details class="hint" open>
-    <summary>Управление</summary>
-    <ul>
-      <li><kbd>Мышь</kbd> по первому экрану: параллакс и пар за курсором</li>
-      <li><kbd>Щелчок</kbd> облачко пара</li>
-      <li><kbd>←</kbd> <kbd>→</kbd> наклонить чашку</li>
-      <li><kbd>↑</kbd> <kbd>↓</kbd> поднять или опустить чашку</li>
-      <li><kbd>Пробел</kbd> пар вкл/выкл</li>
-      <li><kbd>Esc</kbd> вернуть чашку на место</li>
-    </ul>
-  </details>
+  <footer class="wrap footer">
+    <span>© Студия ВОЛНА</span>
+    <a href="order.html" data-label="Заказ">Оформить предзаказ →</a>
+  </footer>
 
-  <footer class="footer">Кофейня «Пенка» — вымышленный бренд учебного проекта</footer>
+  <div class="hints">
+    <div><kbd data-key="a">A</kbd><span>…</span><kbd data-key="k">K</kbd> играть ноты</div>
+    <div><kbd data-key="Shift">Shift</kbd> форма волны</div>
+    <div><span>мышь</span> фильтр и амплитуда</div>
+  </div>
 
-  <script src="js/shared.js"></script>
+  <script src="js/common.js"></script>
   <script src="js/home.js"></script>
 </body>
 </html>

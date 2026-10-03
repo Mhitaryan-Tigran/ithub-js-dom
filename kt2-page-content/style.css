@@ -1,0 +1,35 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+}
+
+#cats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.cat-card {
+  border: 1px solid #ccc;
+  padding: 8px;
+  width: 220px;
+}
+
+.cat-card img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cat-name {
+  font-weight: bold;
+}
+
+.cat-age,
+.cat-rate {
+  font-size: 14px;
+}
+
+.cat-desc {
+  font-size: 14px;
+}

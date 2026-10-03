@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Заказ — ВОЛНА·7</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="curtain"><span>Заказ</span></div>
+  <div class="glow"></div>
+
+  <nav class="nav">
+    <a class="logo" href="index.html" data-label="Волна"><i></i>ВОЛНА·7</a>
+    <div class="menu">
+      <a href="index.html" data-label="Главная">Главная</a>
+      <a href="product.html" data-label="Устройство">Устройство</a>
+      <a href="gallery.html" data-label="Истории">Истории</a>
+      <a href="order.html" data-label="Заказ">Заказ</a>
+    </div>
+  </nav>
+
+  <section class="order">
+    <canvas id="field"></canvas>
+    <div class="wrap">
+      <p class="eyebrow">Предзаказ</p>
+      <h1 class="display" data-accent="0" style="font-size:clamp(48px,8vw,128px)">Ваша волна</h1>
+
+      <div class="order-grid">
+        <form class="form" id="form" novalidate>
+          <div class="bar" id="bar"></div>
+
+          <div class="field">
+            <label for="name">Имя <em>минимум два символа</em></label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться">
+          </div>
+
+          <div class="field">
+            <label for="email">Почта <em>похоже на опечатку</em></label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@studio.ru">
+          </div>
+
+          <div class="field">
+            <label>Комплектация</label>
+            <div class="pills" id="models">
+              <button type="button" class="pill is-active" data-price="189000">Стандарт</button>
+              <button type="button" class="pill" data-price="239000">Про · патч-бей</button>
+              <button type="button" class="pill" data-price="312000">Лимитед · орех</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Отделка</label>
+            <div class="pills" id="finishes">
+              <button type="button" class="pill is-active" data-price="0">Графит</button>
+              <button type="button" class="pill" data-price="0">Слоновая кость</button>
+              <button type="button" class="pill" data-price="12000">Закат</button>
+              <button type="button" class="pill" data-price="12000">Полночь</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">Сообщение <em>необязательно</em></label>
+            <textarea id="message" name="message" rows="2" placeholder="Для кого инструмент, какая музыка"></textarea>
+          </div>
+
+          <div class="total">
+            <div><span>Итого</span><br><b id="total">189 000 ₽</b></div>
+            <button class="btn solid" type="submit">Оформить <span>↵</span></button>
+          </div>
+
+          <div class="done" id="done">
+            <div>
+              <svg viewBox="0 0 96 96"><circle id="doneCircle" cx="48" cy="48" r="44"/><path id="doneCheck" d="M28 50 L42 64 L70 34"/></svg>
+              <h3>Принято</h3>
+              <p id="doneText"></p>
+              <p style="margin-top:24px"><button class="btn" type="button" id="again">Ещё один</button></p>
+            </div>
+          </div>
+        </form>
+
+        <aside class="contacts reveal">
+          <div>
+            <p class="eyebrow">Как это работает</p>
+            <p class="lead" style="margin-top:14px;font-size:18px">Предзаказ ни к чему не обязывает. Мы напишем, когда ваша партия встанет на сборку, и попросим подтвердить отделку.</p>
+          </div>
+          <dl>
+            <div><dt>Почта</dt><dd><a href="mailto:hello@volna.studio">hello@volna.studio</a></dd></div>
+            <div><dt>Шоурум</dt><dd>Санкт-Петербург, Канонерская 12</dd></div>
+            <div><dt>Срок</dt><dd>8–10 недель с момента подтверждения</dd></div>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="hints">
+    <div><kbd data-key="Enter">↵</kbd> следующее поле / отправить</div>
+    <div><kbd data-key="Escape">Esc</kbd> очистить</div>
+    <div><kbd data-key="Space">Space</kbd> взрыв частиц</div>
+    <div><span>мышь</span> разгоняет частицы</div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/order.js"></script>
+</body>
+</html>
