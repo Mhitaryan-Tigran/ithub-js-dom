@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
-  <title>Банковская карта</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Новая карта — КТ №5</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <svg class="sprite" aria-hidden="true" focusable="false">
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
     <symbol id="mark-sber" viewBox="0 0 32 32">
       <circle cx="16" cy="16" r="13" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="58 24" stroke-dashoffset="-14" stroke-linecap="round"/>
       <path d="M9 15.5l5 5 10-11" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,144 +75,100 @@
       <text x="37" y="23" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">UnionPay</text>
     </symbol>
   </svg>
+<svg class="sprite" width="0" height="0" aria-hidden="true"><symbol id="trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="chip" viewBox="0 0 40 30"><rect x="0.5" y="0.5" width="39" height="29" rx="6" fill="#e9d29a" stroke="#c9ab63"/><path d="M14 0.5v29M26 0.5v29M0.5 10h13.5M26 10h13.5M0.5 20h13.5M26 20h13.5" stroke="#c9ab63" fill="none"/></symbol><symbol id="contactless" viewBox="0 0 24 24"><path d="M8.5 8.5a5 5 0 0 1 0 7M12 6a8.5 8.5 0 0 1 0 12M15.5 3.5a12 12 0 0 1 0 17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol></svg>
+<main class="page">
+  <a class="crumb" href="../">‹ Контрольные точки</a>
+  <header class="intro">
+    <p class="eyebrow">КТ №5 · Элементы формы</p>
+    <h1>Новая карта</h1>
+    <p class="lede">Заполните данные&nbsp;— карта справа соберётся по&nbsp;мере ввода. Добавленные карты появятся в&nbsp;таблице ниже.</p>
+  </header>
 
-  <main class="page">
-    <header class="hero">
-      <p class="hero__eyebrow">Элементы формы · контрольная №5</p>
-      <h1 class="hero__title">Выпуск банковской карты</h1>
-      <p class="hero__text">Заполните форму и смотрите, как карта оживает справа. Добавленные карты собираются в списке ниже.</p>
-    </header>
+  <div class="editor">
+    <form class="form" id="card-form" novalidate autocomplete="off">
+      <div class="list">
+        <label class="row" for="bank">
+          <span class="row-label">Банк</span>
+          <select id="bank" name="bank" required aria-describedby="bank-error"><option value="">Выберите</option></select>
+        </label>
+        <p class="error" id="bank-error"></p>
 
-    <section class="workspace">
-      <form class="form" id="card-form" novalidate autocomplete="off">
-        <div class="form__grid">
-          <div class="field">
-            <label class="field__label" for="bank">Банк</label>
-            <div class="field__control field__control--select">
-              <select id="bank" name="bank" aria-describedby="bank-error">
-                <option value="">Выберите банк</option>
-              </select>
-            </div>
-            <p class="field__error" id="bank-error" aria-live="polite"></p>
-          </div>
+        <fieldset class="row row-systems" aria-describedby="system-error">
+          <legend class="row-label">Платёжная система</legend>
+          <div class="systems" id="systems"></div>
+        </fieldset>
+        <p class="error" id="system-error"></p>
 
-          <div class="field">
-            <label class="field__label" for="system">Платёжная система</label>
-            <div class="field__control field__control--select">
-              <select id="system" name="system" aria-describedby="system-error">
-                <option value="">Выберите систему</option>
-              </select>
-            </div>
-            <p class="field__error" id="system-error" aria-live="polite"></p>
-            <p class="field__hint" id="system-hint"></p>
-          </div>
+        <label class="row" for="number">
+          <span class="row-label">Номер</span>
+          <input id="number" name="number" inputmode="numeric" placeholder="0000 0000 0000 0000" maxlength="19" required aria-describedby="number-error">
+        </label>
+        <p class="error" id="number-error"></p>
 
-          <div class="field field--wide">
-            <label class="field__label" for="number">Номер карты</label>
-            <div class="field__control">
-              <input id="number" name="number" type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" spellcheck="false" aria-describedby="number-error">
-              <span class="field__counter" id="number-counter" aria-hidden="true">0 / 16</span>
-            </div>
-            <p class="field__error" id="number-error" aria-live="polite"></p>
-          </div>
+        <label class="row" for="holder">
+          <span class="row-label">Владелец</span>
+          <input id="holder" name="holder" placeholder="IVAN PETROV" maxlength="26" spellcheck="false" autocapitalize="characters" required aria-describedby="holder-error">
+        </label>
+        <p class="error" id="holder-error"></p>
 
-          <div class="field field--wide">
-            <label class="field__label" for="holder">Имя держателя</label>
-            <div class="field__control">
-              <input id="holder" name="holder" type="text" maxlength="24" placeholder="IVAN IVANOV" spellcheck="false" aria-describedby="holder-error">
-            </div>
-            <p class="field__error" id="holder-error" aria-live="polite"></p>
-          </div>
-
-          <fieldset class="field field--wide field--expiry">
-            <legend class="field__label">Срок действия</legend>
-            <div class="field__pair">
-              <div class="field__control field__control--select">
-                <select id="month" name="month" aria-label="Месяц" aria-describedby="expiry-error">
-                  <option value="">Месяц</option>
-                </select>
-              </div>
-              <div class="field__control field__control--select">
-                <select id="year" name="year" aria-label="Год" aria-describedby="expiry-error">
-                  <option value="">Год</option>
-                </select>
-              </div>
-            </div>
-            <p class="field__error" id="expiry-error" aria-live="polite"></p>
-          </fieldset>
-        </div>
-
-        <div class="form__actions">
-          <button class="button" type="submit">
-            <span>Выпустить карту</span>
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="button button--ghost" type="reset">Очистить</button>
-        </div>
-      </form>
-
-      <aside class="stage" id="stage" aria-label="Миниатюра карты">
-        <div class="card" id="card" data-bank="">
-          <div class="card__glare"></div>
-          <div class="card__top">
-            <div class="card__bank" id="card-bank">
-              <span class="card__bank-placeholder">Ваш банк</span>
-            </div>
-            <svg class="card__nfc" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 8.5a6 6 0 0 1 0 7M9.5 6.5a9 9 0 0 1 0 11M13 4.5a12 12 0 0 1 0 15M16.5 2.5a15 15 0 0 1 0 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <svg class="card__chip" viewBox="0 0 48 36" aria-hidden="true">
-            <defs>
-              <linearGradient id="chip-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#f6e2a3"/>
-                <stop offset=".5" stop-color="#d4a94a"/>
-                <stop offset="1" stop-color="#f2d58a"/>
-              </linearGradient>
-            </defs>
-            <rect x="1" y="1" width="46" height="34" rx="6" fill="url(#chip-grad)" stroke="#8a6a1f" stroke-opacity=".5"/>
-            <path d="M1 12h14a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H1M47 12H33a4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h14M19 1v34M29 1v34M15 12V1M33 12V1M15 24v11M33 24v11" fill="none" stroke="#8a6a1f" stroke-opacity=".55" stroke-width="1.2"/>
-          </svg>
-          <div class="card__number" id="card-number" aria-live="off"></div>
-          <div class="card__bottom">
-            <div class="card__meta">
-              <span class="card__label">Держатель</span>
-              <span class="card__value" id="card-holder">ИМЯ ФАМИЛИЯ</span>
-            </div>
-            <div class="card__meta">
-              <span class="card__label">Срок</span>
-              <span class="card__value" id="card-expiry">ММ/ГГ</span>
-            </div>
-            <div class="card__system" id="card-system"></div>
+        <div class="row">
+          <span class="row-label" id="expiry-label">Действует до</span>
+          <div class="expiry" role="group" aria-labelledby="expiry-label" aria-describedby="expiry-error">
+            <select id="month" name="month" required aria-label="Месяц"><option value="">ММ</option></select>
+            <span aria-hidden="true">/</span>
+            <select id="year" name="year" required aria-label="Год"><option value="">ГГ</option></select>
           </div>
         </div>
-      </aside>
-    </section>
-
-    <section class="vault" aria-labelledby="vault-title">
-      <div class="vault__head">
-        <h2 class="vault__title" id="vault-title">Выпущенные карты</h2>
-        <span class="vault__count" id="vault-count">0</span>
+        <p class="error" id="expiry-error"></p>
       </div>
-      <div class="vault__table-wrap">
-        <table class="table" id="table">
-          <thead>
-            <tr>
-              <th scope="col">Банк</th>
-              <th scope="col">Система</th>
-              <th scope="col">Номер</th>
-              <th scope="col">Держатель</th>
-              <th scope="col">Срок</th>
-              <th scope="col"><span class="visually-hidden">Действия</span></th>
-            </tr>
-          </thead>
-          <tbody id="rows"></tbody>
-        </table>
-        <p class="vault__empty" id="vault-empty">Пока ни одной карты. Заполните форму и нажмите «Выпустить карту».</p>
+      <div class="form-actions">
+        <button class="plain" type="reset">Очистить</button>
+        <button class="filled" type="submit">Добавить карту</button>
       </div>
-    </section>
-    <p class="visually-hidden" id="status" role="status" aria-live="polite"></p>
-  </main>
-  <script src="script.js"></script>
+    </form>
+
+    <div class="preview" aria-live="polite">
+      <div class="card" id="card" data-bank="">
+        <div class="card-top">
+          <span class="card-bank" id="card-bank"><span class="card-placeholder">Банк</span></span>
+          <svg class="card-nfc" aria-hidden="true"><use href="#contactless"/></svg>
+        </div>
+        <svg class="card-chip" aria-hidden="true"><use href="#chip"/></svg>
+        <p class="card-number" id="card-number">•••• •••• •••• ••••</p>
+        <div class="card-bottom">
+          <div>
+            <span class="card-caption">Владелец</span>
+            <span class="card-holder" id="card-holder">IVAN PETROV</span>
+          </div>
+          <div>
+            <span class="card-caption">До</span>
+            <span class="card-expiry" id="card-expiry">ММ/ГГ</span>
+          </div>
+          <span class="card-system" id="card-system"></span>
+        </div>
+      </div>
+      <p class="preview-note">Номер виден только вам и&nbsp;в&nbsp;таблице сохраняется замаскированным.</p>
+    </div>
+  </div>
+
+  <section class="wallet" aria-labelledby="wallet-title">
+    <div class="wallet-head">
+      <h2 id="wallet-title">Мои карты</h2>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="table-wrap">
+      <table class="cards-table">
+        <thead><tr><th scope="col">Банк</th><th scope="col">Система</th><th scope="col">Номер</th><th scope="col">Владелец</th><th scope="col">Срок</th><th scope="col"><span class="sr">Действия</span></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty">
+        <p class="empty-title">Карт пока нет</p>
+        <p>Заполните форму выше и&nbsp;нажмите «Добавить карту».</p>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="hud" id="hud" role="status" hidden><span id="hud-text"></span><button type="button" id="hud-undo">Отменить</button></div>
+<script src="script.js"></script>
 </body>
 </html>

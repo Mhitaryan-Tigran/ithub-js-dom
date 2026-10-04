@@ -1,169 +1,149 @@
-const scope = document.getElementById("scope");
-const ctx2d = scope.getContext("2d");
-const piano = document.getElementById("piano");
-const keys = [...piano.querySelectorAll(".key")];
-const waveforms = ["sawtooth", "square", "triangle", "sine"];
-const voices = new Map();
+(function () {
+  const { mapRange, progress, onScroll, reduced } = window.Motion;
+  const { render, createAudio, drawScope, NOTE_KEYS, CODE_KEYS } = window.Volna;
+  const audio = createAudio();
+  const WAVES = { sine: "SINE", triangle: "TRI", sawtooth: "SAW", square: "SQUARE" };
+  const KEY_OF = Object.fromEntries(Object.entries(NOTE_KEYS).map(([k, n]) => [n, k]));
+  const held = new Map();
 
-let audio = null;
-let master = null;
-let filter = null;
-let analyser = null;
-let waveIndex = 0;
-let mouseX = 0.5;
-let mouseY = 0.5;
-let smoothX = 0.5;
-let smoothY = 0.5;
-let phase = 0;
-let width = 0;
-let height = 0;
+  const synthBox = document.getElementById("synth");
+  synthBox.innerHTML = render("aluminum");
+  const svg = synthBox.querySelector("svg");
 
-function resize() {
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
-  width = scope.clientWidth;
-  height = scope.clientHeight;
-  scope.width = width * dpr;
-  scope.height = height * dpr;
-  ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
-}
-
-window.addEventListener("resize", resize);
-resize();
-
-function ensureAudio() {
-  if (audio) return;
-  audio = new (window.AudioContext || window.webkitAudioContext)();
-  master = audio.createGain();
-  master.gain.value = 0.25;
-  filter = audio.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.Q.value = 6;
-  analyser = audio.createAnalyser();
-  analyser.fftSize = 2048;
-  filter.connect(master);
-  master.connect(analyser);
-  analyser.connect(audio.destination);
-}
-
-function cutoffFromMouse() {
-  return 200 * Math.pow(40, smoothX);
-}
-
-function noteOn(key) {
-  if (voices.has(key)) return;
-  ensureAudio();
-  if (audio.state === "suspended") audio.resume();
-  const note = Number(key.dataset.note);
-  const osc = audio.createOscillator();
-  const env = audio.createGain();
-  osc.type = waveforms[waveIndex];
-  osc.frequency.value = 261.63 * Math.pow(2, note / 12);
-  env.gain.setValueAtTime(0, audio.currentTime);
-  env.gain.linearRampToValueAtTime(0.5, audio.currentTime + 0.015);
-  osc.connect(env);
-  env.connect(filter);
-  osc.start();
-  voices.set(key, { osc, env });
-  key.classList.add("is-on");
-}
-
-function noteOff(key) {
-  const voice = voices.get(key);
-  if (!voice) return;
-  const t = audio.currentTime;
-  voice.env.gain.cancelScheduledValues(t);
-  voice.env.gain.setValueAtTime(voice.env.gain.value, t);
-  voice.env.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
-  voice.osc.stop(t + 0.4);
-  voices.delete(key);
-  key.classList.remove("is-on");
-}
-
-const keyByLetter = Object.fromEntries(keys.map((k) => [k.dataset.k, k]));
-
-window.addEventListener("keydown", (e) => {
-  if (e.repeat) return;
-  if (e.key === "Shift") {
-    waveIndex = (waveIndex + 1) % waveforms.length;
-    voices.forEach((v) => (v.osc.type = waveforms[waveIndex]));
-    document.querySelector(".hero-meta").children[1].innerHTML = `<b>${waveIndex + 1}/4</b> ${{
-      sawtooth: "пила",
-      square: "меандр",
-      triangle: "треугольник",
-      sine: "синус",
-    }[waveforms[waveIndex]]}`;
-    return;
+  function light(note, on) {
+    svg.querySelectorAll(`.synth-key[data-note="${note}"]`).forEach((k) => k.classList.toggle("is-on", on));
+    document.querySelectorAll(`.mk[data-note="${note}"]`).forEach((k) => k.classList.toggle("is-on", on));
   }
-  const key = keyByLetter[e.key.toLowerCase()];
-  if (key) noteOn(key);
-});
 
-window.addEventListener("keyup", (e) => {
-  const key = keyByLetter[e.key.toLowerCase()];
-  if (key) noteOff(key);
-});
+  function press(note, source) {
+    if (held.has(note)) return;
+    held.set(note, source);
+    audio.start(note);
+    light(note, true);
+  }
 
-keys.forEach((key) => {
-  key.addEventListener("mousedown", () => noteOn(key));
-  key.addEventListener("mouseup", () => noteOff(key));
-  key.addEventListener("mouseleave", () => noteOff(key));
-  key.addEventListener("mouseenter", (e) => {
-    if (e.buttons === 1) noteOn(key);
+  function release(note) {
+    if (!held.has(note)) return;
+    held.delete(note);
+    audio.stop(note);
+    light(note, false);
+  }
+
+  function setWave(wave) {
+    audio.set("wave", wave);
+    document.querySelectorAll(".waves button").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.wave === wave)));
+    svg.querySelector(".synth-readout").textContent = `${WAVES[wave]} · 7 VOICES`;
+  }
+
+  const mini = document.getElementById("minikeys");
+  const whites = [60, 62, 64, 65, 67, 69, 71, 72];
+  const blacks = [61, 63, 66, 68, 70];
+  whites.forEach((n) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "mk";
+    b.dataset.note = n;
+    b.textContent = (KEY_OF[n] || "").toUpperCase();
+    b.setAttribute("aria-label", `Нота ${n}, клавиша ${(KEY_OF[n] || "").toUpperCase()}`);
+    mini.append(b);
   });
-});
+  blacks.forEach((n) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "mk black";
+    b.dataset.note = n;
+    b.textContent = (KEY_OF[n] || "").toUpperCase();
+    b.setAttribute("aria-label", `Нота ${n}, клавиша ${(KEY_OF[n] || "").toUpperCase()}`);
+    const left = whites.indexOf(n - 1);
+    b.style.left = `${((left + 1) / whites.length) * 100}%`;
+    mini.append(b);
+  });
 
-window.addEventListener("blur", () => voices.forEach((v, key) => noteOff(key)));
-
-window.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX / window.innerWidth;
-  mouseY = e.clientY / window.innerHeight;
-});
-
-const buffer = new Float32Array(2048);
-
-function drawLine(samples, amp, color, lineWidth, alpha) {
-  ctx2d.beginPath();
-  for (let i = 0; i < width; i += 2) {
-    const s = samples(i / width);
-    const y = height * 0.5 + s * amp;
-    if (i === 0) ctx2d.moveTo(i, y);
-    else ctx2d.lineTo(i, y);
+  function bindPointer(root, selector) {
+    let down = false;
+    root.addEventListener("pointerdown", (e) => {
+      const key = e.target.closest(selector);
+      if (!key) return;
+      e.preventDefault();
+      down = true;
+      root.setPointerCapture?.(e.pointerId);
+      press(Number(key.dataset.note), "mouse");
+    });
+    root.addEventListener("pointermove", (e) => {
+      if (!down) return;
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const key = el && el.closest(selector);
+      const note = key && root.contains(key) ? Number(key.dataset.note) : null;
+      [...held].forEach(([n, src]) => src === "mouse" && n !== note && release(n));
+      if (note !== null) press(note, "mouse");
+    });
+    const up = () => {
+      down = false;
+      [...held].forEach(([n, src]) => src === "mouse" && release(n));
+    };
+    root.addEventListener("pointerup", up);
+    root.addEventListener("pointercancel", up);
+    root.addEventListener("lostpointercapture", up);
   }
-  ctx2d.strokeStyle = color;
-  ctx2d.globalAlpha = alpha;
-  ctx2d.lineWidth = lineWidth;
-  ctx2d.stroke();
-  ctx2d.globalAlpha = 1;
-}
+  bindPointer(svg, ".synth-key");
+  bindPointer(mini, ".mk");
 
-function frame() {
-  smoothX = lerp(smoothX, mouseX, 0.06);
-  smoothY = lerp(smoothY, mouseY, 0.06);
-  if (filter) filter.frequency.value = cutoffFromMouse();
-  ctx2d.clearRect(0, 0, width, height);
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+    if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    const key = CODE_KEYS[e.code];
+    if (key) {
+      press(NOTE_KEYS[key], "keyboard");
+      return;
+    }
+    const wave = { Digit1: "sine", Digit2: "triangle", Digit3: "sawtooth", Digit4: "square" }[e.code];
+    if (wave) setWave(wave);
+  });
+  document.addEventListener("keyup", (e) => {
+    const key = CODE_KEYS[e.code];
+    if (key) release(NOTE_KEYS[key]);
+  });
+  window.addEventListener("blur", () => [...held.keys()].forEach(release));
 
-  const playing = voices.size > 0 && analyser;
-  const amp = height * (0.08 + (1 - smoothY) * 0.3);
-  let samples;
+  document.querySelectorAll(".waves button").forEach((b) => b.addEventListener("click", () => setWave(b.dataset.wave)));
+  drawScope(document.getElementById("scope"), audio, "#ff9f0a");
 
-  if (playing) {
-    analyser.getFloatTimeDomainData(buffer);
-    samples = (t) => buffer[Math.floor(t * (buffer.length - 1))] * 1.6;
-  } else {
-    const freq = 2 + smoothX * 10;
-    samples = (t) =>
-      Math.sin(t * Math.PI * 2 * freq + phase) * 0.6 +
-      Math.sin(t * Math.PI * 2 * freq * 2.01 + phase * 1.7) * 0.25 +
-      Math.sin(t * Math.PI * 2 * freq * 0.5 - phase * 0.6) * 0.15;
+  const chapter = document.getElementById("chapter");
+  const product = document.getElementById("product");
+  const callouts = [...document.querySelectorAll(".callout")];
+  const wipe = document.getElementById("wipe");
+  const lines = [...document.querySelectorAll(".wipe-line")];
+  lines.forEach((l) => (l.dataset.text = l.textContent.trim()));
+  const pinned = matchMedia("(min-width: 835px)");
+
+  onScroll((y) => {
+    if (pinned.matches) {
+      const p = progress(chapter, y);
+      const scale = mapRange(p, 0, 0.5, 0.84, 1.04);
+      const ty = mapRange(p, 0, 0.5, 60, 0) + mapRange(p, 0.8, 1, 0, -40);
+      const fade = mapRange(p, 0.85, 1, 1, 0.4);
+      product.style.transform = `translateY(${ty.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+      product.style.opacity = fade.toFixed(3);
+      callouts.forEach((c) => c.classList.toggle("is-on", p >= Number(c.dataset.at) && p < 0.92));
+    } else {
+      product.style.transform = "";
+      product.style.opacity = "";
+    }
+    const w = progress(wipe, y);
+    lines.forEach((l, i) => l.style.setProperty("--p", mapRange(w, i * 0.22, i * 0.22 + 0.36, 0, 1).toFixed(3)));
+  });
+
+  const tilt = document.getElementById("tilt");
+  if (!reduced && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    const scene = document.querySelector(".scene");
+    scene.addEventListener("mousemove", (e) => {
+      const r = scene.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      tilt.style.transform = `perspective(1600px) rotateY(${(x * 8).toFixed(2)}deg) rotateX(${(-y * 6).toFixed(2)}deg)`;
+    });
+    scene.addEventListener("mouseleave", () => (tilt.style.transform = ""));
   }
 
-  drawLine(samples, amp, "#ff6a1a", 14, 0.08);
-  drawLine(samples, amp, "#ff6a1a", 5, 0.25);
-  drawLine(samples, amp, "#ffb347", 1.5, 1);
-  drawLine((t) => samples(t + 0.015), amp * 0.8, "#efe7da", 1, 0.25);
-
-  phase += RM ? 0 : 0.02 + smoothX * 0.03;
-  requestAnimationFrame(frame);
-}
-
-frame();
+  setWave("sawtooth");
+})();

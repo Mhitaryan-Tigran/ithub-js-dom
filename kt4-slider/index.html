@@ -2,27 +2,14 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Проявка — панель коррекции</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Проявка — слайдеры · КТ №4</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-mark"></span>
-      <span class="brand-name">Проявка</span>
-    </div>
-    <div class="topbar-meta">
-      <span class="file-name">lake_sunset.raw</span>
-      <span class="file-size">6016 × 4512</span>
-    </div>
-  </header>
-
-  <section class="stage">
-    <div class="preview" id="preview">
-      <svg class="scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-label="Закат над горным озером">
-        <defs>
+<svg width="0" height="0" class="sprite" aria-hidden="true">
+  <defs><defs>
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#1b1f4a"/>
             <stop offset="0.45" stop-color="#6a3b7a"/>
@@ -51,11 +38,10 @@
             <stop offset="0" stop-color="#211a33"/>
             <stop offset="1" stop-color="#120e1f"/>
           </linearGradient>
-          <filter id="grainFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/>
-            <feColorMatrix type="saturate" values="0"/>
-          </filter>
-        </defs>
+          
+        </defs></defs>
+  <symbol id="scene" viewBox="0 0 1200 800">
+        
         <rect width="1200" height="800" fill="url(#sky)"/>
         <g fill="#fff6e0" opacity="0.8">
           <circle cx="90" cy="70" r="1.6"/><circle cx="210" cy="120" r="1.2"/><circle cx="340" cy="50" r="1.8"/>
@@ -90,61 +76,34 @@
           <polygon points="1000,728 1022,650 1044,728"/>
           <polygon points="1040,740 1058,672 1076,740"/>
         </g>
-      </svg>
-      <div class="layer layer-temp"></div>
-      <div class="layer layer-vignette"></div>
-      <div class="layer layer-grain"></div>
-      <div class="preview-badge" id="compareBadge">Оригинал</div>
-    </div>
-    <div class="stage-bar">
-      <div class="presets" id="presets">
-        <button class="chip is-active" type="button" data-preset="none">Без обработки</button>
-        <button class="chip" type="button" data-preset="cinema">Кино</button>
-        <button class="chip" type="button" data-preset="warm">Золотой час</button>
-        <button class="chip" type="button" data-preset="cold">Северный</button>
-        <button class="chip" type="button" data-preset="film">Плёнка</button>
-      </div>
-      <button class="ghost-btn" type="button" id="compareBtn">Удерживайте — оригинал</button>
-    </div>
+      </symbol>
+  <filter id="grainFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+</svg>
+
+<header class="toolbar">
+  <a class="crumb" href="../">‹ Контрольные точки</a>
+  <div class="title">
+    <h1>Проявка</h1>
+    <p>КТ №4 · Слайдер на событиях мыши</p>
+  </div>
+  <button class="tinted" type="button" id="resetAll">Сбросить всё</button>
+</header>
+
+<main class="workspace">
+  <section class="stage" aria-label="Фотография">
+    <figure class="photo" id="photo">
+      <svg class="scene" id="scene-view" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Закат над горным озером"><use href="#scene"/></svg>
+      <div class="layer layer-temp" id="layer-temp"></div>
+      <div class="layer layer-vignette" id="layer-vignette"></div>
+      <svg class="layer layer-grain" id="layer-grain" aria-hidden="true"><rect width="100%" height="100%" filter="url(#grainFilter)"/></svg>
+      <figcaption class="badge" id="badge" hidden>Оригинал</figcaption>
+    </figure>
+    <p class="hint">Нажмите и&nbsp;удерживайте фото, чтобы сравнить с&nbsp;оригиналом</p>
+    <div class="presets" id="presets" role="radiogroup" aria-label="Стили"><button class="preset" type="button" role="radio" aria-checked="true" data-preset="none"><span class="thumb"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#scene"/></svg><span class="t-temp"></span><span class="t-vig"></span></span><span class="preset-name">Оригинал</span></button><button class="preset" type="button" role="radio" aria-checked="false" data-preset="cinema"><span class="thumb"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#scene"/></svg><span class="t-temp"></span><span class="t-vig"></span></span><span class="preset-name">Кино</span></button><button class="preset" type="button" role="radio" aria-checked="false" data-preset="warm"><span class="thumb"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#scene"/></svg><span class="t-temp"></span><span class="t-vig"></span></span><span class="preset-name">Золотой час</span></button><button class="preset" type="button" role="radio" aria-checked="false" data-preset="cold"><span class="thumb"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#scene"/></svg><span class="t-temp"></span><span class="t-vig"></span></span><span class="preset-name">Север</span></button><button class="preset" type="button" role="radio" aria-checked="false" data-preset="film"><span class="thumb"><svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#scene"/></svg><span class="t-temp"></span><span class="t-vig"></span></span><span class="preset-name">Плёнка</span></button></div>
   </section>
 
-  <aside class="panel">
-    <div class="panel-head">
-      <h1 class="panel-title">Коррекция</h1>
-      <button class="ghost-btn" type="button" id="resetBtn">Сбросить</button>
-    </div>
-
-    <div class="group">
-      <div class="group-label">Свет</div>
-      <div class="control" data-id="exposure" data-min="-100" data-max="100" data-step="1" data-value="0" data-bipolar>
-        <div class="control-head"><span class="control-name">Экспозиция</span></div>
-      </div>
-      <div class="control" data-id="contrast" data-min="-100" data-max="100" data-step="1" data-value="0" data-bipolar>
-        <div class="control-head"><span class="control-name">Контраст</span></div>
-      </div>
-    </div>
-
-    <div class="group">
-      <div class="group-label">Цвет</div>
-      <div class="control" data-id="saturation" data-min="0" data-max="200" data-step="1" data-value="100" data-suffix="%">
-        <div class="control-head"><span class="control-name">Насыщенность</span></div>
-      </div>
-      <div class="control" data-id="temperature" data-min="-50" data-max="50" data-step="1" data-value="0" data-bipolar>
-        <div class="control-head"><span class="control-name">Температура</span></div>
-      </div>
-    </div>
-
-    <div class="group">
-      <div class="group-label">Эффекты</div>
-      <div class="control" data-id="vignette" data-min="0" data-max="100" data-step="5" data-value="0" data-suffix="%" data-ticks>
-        <div class="control-head"><span class="control-name">Виньетка</span></div>
-      </div>
-      <div class="control" data-id="grain" data-min="0" data-max="100" data-step="10" data-value="0" data-suffix="%" data-ticks>
-        <div class="control-head"><span class="control-name">Зерно</span></div>
-      </div>
-    </div>
-
-    <p class="hint">Перетащите бегунок мышью · <kbd>←</kbd> <kbd>→</kbd> шаг · <kbd>Shift</kbd> ×10 · двойной клик — сброс</p>
+  <aside class="inspector" aria-label="Коррекция"><section class="group"><h2>Свет</h2><div class="group-body"><div class="control" data-id="exposure" data-min="-100" data-max="100" data-step="1" data-value="0" data-suffix="" data-bipolar><div class="control-head"><span class="control-name" id="label-exposure">Экспозиция</span><button class="control-reset" type="button" aria-label="Сбросить экспозиция">Сбросить</button></div></div><div class="control" data-id="contrast" data-min="-100" data-max="100" data-step="1" data-value="0" data-suffix="" data-bipolar><div class="control-head"><span class="control-name" id="label-contrast">Контраст</span><button class="control-reset" type="button" aria-label="Сбросить контраст">Сбросить</button></div></div></div></section><section class="group"><h2>Цвет</h2><div class="group-body"><div class="control" data-id="saturation" data-min="0" data-max="200" data-step="1" data-value="100" data-suffix="%"><div class="control-head"><span class="control-name" id="label-saturation">Насыщенность</span><button class="control-reset" type="button" aria-label="Сбросить насыщенность">Сбросить</button></div></div><div class="control" data-id="temperature" data-min="-50" data-max="50" data-step="1" data-value="0" data-suffix="" data-bipolar><div class="control-head"><span class="control-name" id="label-temperature">Теплота</span><button class="control-reset" type="button" aria-label="Сбросить теплота">Сбросить</button></div></div></div></section><section class="group"><h2>Эффекты</h2><div class="group-body"><div class="control" data-id="vignette" data-min="0" data-max="100" data-step="5" data-value="0" data-suffix="%"><div class="control-head"><span class="control-name" id="label-vignette">Виньетка</span><button class="control-reset" type="button" aria-label="Сбросить виньетка">Сбросить</button></div></div><div class="control" data-id="grain" data-min="0" data-max="100" data-step="10" data-value="0" data-suffix="%"><div class="control-head"><span class="control-name" id="label-grain">Зерно</span><button class="control-reset" type="button" aria-label="Сбросить зерно">Сбросить</button></div></div></div></section>
+    <p class="keys">Тяните бегунок мышью или пальцем. Стрелки&nbsp;— шаг, Shift&nbsp;— ×10, Home и&nbsp;End&nbsp;— края, двойной щелчок&nbsp;— сброс.</p>
   </aside>
 </main>
 <script src="slider.js"></script>

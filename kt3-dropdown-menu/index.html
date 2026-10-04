@@ -1,292 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Вольт — техника и электроника</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Вольт — меню каталога · КТ №3</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="backdrop"></div>
+<svg width="0" height="0" class="sprite" aria-hidden="true">
+  <symbol id="chevron" viewBox="0 0 16 16"><path d="M4.5 6l3.5 3.5L11.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="arrow" viewBox="0 0 16 16"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="bolt" viewBox="0 0 24 24"><path d="M13.5 2L4.5 13.5h6L9.5 22l9-11.5h-6L13.5 2z" fill="currentColor"/></symbol>
+</svg>
 
-  <header class="header">
-    <div class="container header__inner">
-      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню">
-        <span></span><span></span><span></span>
-      </button>
-
-      <a class="logo" href="#">
-        <span class="logo__mark" aria-hidden="true"></span>
-        Вольт
-      </a>
-
-      <nav class="menu" id="menu" aria-label="Каталог">
-        <div class="menu__head">
-          <span class="menu__title">Каталог</span>
-          <button class="menu__close" id="menu-close" type="button" aria-label="Закрыть меню">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
-          </button>
-        </div>
-
-        <ul class="menu__list" data-level="1">
-          <li class="menu__item">
-            <a class="menu__link" href="#smartphones">Смартфоны и гаджеты</a>
-            <div class="menu__sub">
-              <ul class="menu__list" data-level="2">
-                <li class="menu__item">
-                  <a class="menu__link" href="#smartphones/phones">Смартфоны</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/phones/apple">Apple</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/phones/samsung">Samsung</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/phones/pixel">Google Pixel</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/phones/xiaomi">Xiaomi</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#smartphones/tablets">Планшеты</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/tablets/ipad">iPad</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/tablets/galaxy-tab">Galaxy Tab</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/tablets/drawing">Для рисования</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#smartphones/watches">Умные часы</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/watches/apple-watch">Apple Watch</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/watches/garmin">Garmin</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smartphones/watches/bands">Фитнес-браслеты</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item"><a class="menu__link" href="#smartphones/new">Все новинки</a></li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="menu__item">
-            <a class="menu__link" href="#computers">Компьютеры</a>
-            <div class="menu__sub">
-              <ul class="menu__list" data-level="2">
-                <li class="menu__item">
-                  <a class="menu__link" href="#computers/laptops">Ноутбуки</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#computers/laptops/macbook">MacBook</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/laptops/ultrabooks">Ультрабуки</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/laptops/gaming">Игровые</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/laptops/study">Для учёбы</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#computers/desktops">Настольные</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#computers/desktops/all-in-one">Моноблоки</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/desktops/mini">Мини-ПК</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/desktops/workstations">Рабочие станции</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#computers/parts">Комплектующие</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#computers/parts/gpu">Видеокарты</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/parts/cpu">Процессоры</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/parts/ssd">Накопители SSD</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/parts/ram">Оперативная память</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#computers/peripherals">Периферия</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#computers/peripherals/keyboards">Клавиатуры</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/peripherals/mice">Мыши</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#computers/peripherals/monitors">Мониторы</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="menu__item">
-            <a class="menu__link" href="#audio">Аудио и видео</a>
-            <div class="menu__sub">
-              <ul class="menu__list" data-level="2">
-                <li class="menu__item">
-                  <a class="menu__link" href="#audio/headphones">Наушники</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#audio/headphones/tws">Беспроводные TWS</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/headphones/over-ear">Накладные</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/headphones/studio">Студийные</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#audio/speakers">Колонки</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#audio/speakers/smart">Умные</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/speakers/portable">Портативные</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/speakers/soundbars">Саундбары</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#audio/tv">Телевизоры</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#audio/tv/oled">OLED</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/tv/qled">QLED</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#audio/tv/projectors">Проекторы</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="menu__item">
-            <a class="menu__link" href="#smart-home">Умный дом</a>
-            <div class="menu__sub">
-              <ul class="menu__list" data-level="2">
-                <li class="menu__item">
-                  <a class="menu__link" href="#smart-home/light">Освещение</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/light/bulbs">Лампы</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/light/strips">Светодиодные ленты</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/light/switches">Выключатели</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#smart-home/security">Безопасность</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/security/cameras">Камеры</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/security/sensors">Датчики</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/security/locks">Умные замки</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="menu__item">
-                  <a class="menu__link" href="#smart-home/climate">Климат</a>
-                  <div class="menu__sub">
-                    <ul class="menu__list" data-level="3">
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/climate/thermostats">Термостаты</a></li>
-                      <li class="menu__item"><a class="menu__link" href="#smart-home/climate/purifiers">Очистители воздуха</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="menu__item"><a class="menu__link" href="#sale">Акции</a></li>
-          <li class="menu__item"><a class="menu__link" href="#support">Поддержка</a></li>
-        </ul>
-      </nav>
-
-      <div class="actions">
-        <label class="search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-          <input type="search" placeholder="Поиск по каталогу" aria-label="Поиск по каталогу">
-        </label>
-        <button class="icon-btn" type="button" aria-label="Избранное">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.9c0 5.4-7.5 10-7.5 10z"/></svg>
-        </button>
-        <button class="icon-btn icon-btn--badge" type="button" aria-label="Корзина, 2 товара">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <span class="eyebrow">Новая коллекция осени</span>
-        <h1>Техника, которая <em>работает за вас</em></h1>
-        <p>Смартфоны, компьютеры, аудио и умный дом — четыре направления, сотни брендов и доставка в день заказа.</p>
-        <div class="hero__cta">
-          <a class="btn btn--primary" href="#catalog">Смотреть каталог</a>
-          <a class="btn btn--ghost" href="#sale">Акции недели</a>
-        </div>
-        <p class="hint">Меню в шапке раскрывается по клику на три уровня. Esc или клик мимо закрывают его.</p>
-        <div class="hero__stats">
-          <div class="stat"><b>12 400+</b><span>товаров в наличии</span></div>
-          <div class="stat"><b>4,9</b><span>средняя оценка</span></div>
-          <div class="stat"><b>2 часа</b><span>доставка по городу</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="catalog">
-      <div class="container">
-        <div class="section__head">
-          <h2>Выбор недели</h2>
-          <a class="more" href="#sale">Все предложения</a>
-        </div>
-        <div class="grid">
-          <article class="card" style="--c1:#5b8cff;--c2:#1b2240">
-            <div class="card__img"></div>
-            <span class="card__tag">Смартфоны</span>
-            <h3>Pixel 9 Pro, 256 ГБ</h3>
-            <div class="card__price">89 990 ₽</div>
-          </article>
-          <article class="card" style="--c1:#b389ff;--c2:#241b40">
-            <div class="card__img"></div>
-            <span class="card__tag">Ноутбуки</span>
-            <h3>MacBook Air 13", M4</h3>
-            <div class="card__price">119 990 ₽</div>
-          </article>
-          <article class="card" style="--c1:#5fd3c4;--c2:#163733">
-            <div class="card__img"></div>
-            <span class="card__tag">Наушники</span>
-            <h3>WH-1000XM6</h3>
-            <div class="card__price">34 990 ₽</div>
-          </article>
-          <article class="card" style="--c1:#ffb46a;--c2:#3b2616">
-            <div class="card__img"></div>
-            <span class="card__tag">Умный дом</span>
-            <h3>Термостат Nest, 4 поколение</h3>
-            <div class="card__price">17 490 ₽</div>
-          </article>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container footer__inner">
-      <span>Вольт, учебный проект</span>
-      <span>КТ №3, выпадающее меню на три уровня</span>
-    </div>
-  </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite">
-    <span class="toast__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
-    </span>
-    <span class="toast__text">
-      <span class="toast__label">Можно перейти по ссылке</span>
-      <span class="toast__path"></span>
-    </span>
-    <a class="toast__go" href="#">Перейти</a>
+<header class="gnav" id="gnav">
+  <div class="bar">
+    <a class="logo" href="#" aria-label="Вольт, на главную"><svg aria-hidden="true"><use href="#bolt"/></svg>Вольт</a>
+    <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Меню"><span></span><span></span></button>
+    <nav class="menu" id="menu" aria-label="Каталог">
+      <ul class="l1" role="list"><li class="has-sub"><button class="node top" type="button" data-level="1" aria-expanded="false" aria-controls="m0"><span>Смартфоны и гаджеты</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="panel" id="m0"><div class="panel-inner"><p class="panel-title">Смартфоны и гаджеты</p><ul class="l2" role="list"><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m0-0"><span>Смартфоны</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m0-0"><p class="sub-title">Смартфоны</p><ul class="l3" role="list"><li><a class="leaf" href="#smartphones/phones/apple" data-level="3"><span>Apple</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/phones/samsung" data-level="3"><span>Samsung</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/phones/pixel" data-level="3"><span>Google Pixel</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/phones/xiaomi" data-level="3"><span>Xiaomi</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m0-1"><span>Планшеты</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m0-1"><p class="sub-title">Планшеты</p><ul class="l3" role="list"><li><a class="leaf" href="#smartphones/tablets/ipad" data-level="3"><span>iPad</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/tablets/galaxy-tab" data-level="3"><span>Galaxy Tab</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/tablets/drawing" data-level="3"><span>Для рисования</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m0-2"><span>Умные часы</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m0-2"><p class="sub-title">Умные часы</p><ul class="l3" role="list"><li><a class="leaf" href="#smartphones/watches/apple-watch" data-level="3"><span>Apple Watch</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/watches/garmin" data-level="3"><span>Garmin</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smartphones/watches/bands" data-level="3"><span>Фитнес-браслеты</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li><a class="leaf" href="#smartphones/new" data-level="2"><span>Все новинки</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul><p class="panel-hint">Выберите раздел — откроется третий уровень</p></div></div></li><li class="has-sub"><button class="node top" type="button" data-level="1" aria-expanded="false" aria-controls="m1"><span>Компьютеры</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="panel" id="m1"><div class="panel-inner"><p class="panel-title">Компьютеры</p><ul class="l2" role="list"><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m1-0"><span>Ноутбуки</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m1-0"><p class="sub-title">Ноутбуки</p><ul class="l3" role="list"><li><a class="leaf" href="#computers/laptops/macbook" data-level="3"><span>MacBook</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/laptops/ultrabooks" data-level="3"><span>Ультрабуки</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/laptops/gaming" data-level="3"><span>Игровые</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/laptops/study" data-level="3"><span>Для учёбы</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m1-1"><span>Настольные</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m1-1"><p class="sub-title">Настольные</p><ul class="l3" role="list"><li><a class="leaf" href="#computers/desktops/all-in-one" data-level="3"><span>Моноблоки</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/desktops/mini" data-level="3"><span>Мини-ПК</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/desktops/workstations" data-level="3"><span>Рабочие станции</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m1-2"><span>Комплектующие</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m1-2"><p class="sub-title">Комплектующие</p><ul class="l3" role="list"><li><a class="leaf" href="#computers/parts/gpu" data-level="3"><span>Видеокарты</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/parts/cpu" data-level="3"><span>Процессоры</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/parts/ssd" data-level="3"><span>Накопители SSD</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/parts/ram" data-level="3"><span>Оперативная память</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m1-3"><span>Периферия</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m1-3"><p class="sub-title">Периферия</p><ul class="l3" role="list"><li><a class="leaf" href="#computers/peripherals/keyboards" data-level="3"><span>Клавиатуры</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/peripherals/mice" data-level="3"><span>Мыши</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#computers/peripherals/monitors" data-level="3"><span>Мониторы</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li></ul><p class="panel-hint">Выберите раздел — откроется третий уровень</p></div></div></li><li class="has-sub"><button class="node top" type="button" data-level="1" aria-expanded="false" aria-controls="m2"><span>Аудио и видео</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="panel" id="m2"><div class="panel-inner"><p class="panel-title">Аудио и видео</p><ul class="l2" role="list"><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m2-0"><span>Наушники</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m2-0"><p class="sub-title">Наушники</p><ul class="l3" role="list"><li><a class="leaf" href="#audio/headphones/tws" data-level="3"><span>Беспроводные TWS</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/headphones/over-ear" data-level="3"><span>Накладные</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/headphones/studio" data-level="3"><span>Студийные</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m2-1"><span>Колонки</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m2-1"><p class="sub-title">Колонки</p><ul class="l3" role="list"><li><a class="leaf" href="#audio/speakers/smart" data-level="3"><span>Умные</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/speakers/portable" data-level="3"><span>Портативные</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/speakers/soundbars" data-level="3"><span>Саундбары</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m2-2"><span>Телевизоры</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m2-2"><p class="sub-title">Телевизоры</p><ul class="l3" role="list"><li><a class="leaf" href="#audio/tv/oled" data-level="3"><span>OLED</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/tv/qled" data-level="3"><span>QLED</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#audio/tv/projectors" data-level="3"><span>Проекторы</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li></ul><p class="panel-hint">Выберите раздел — откроется третий уровень</p></div></div></li><li class="has-sub"><button class="node top" type="button" data-level="1" aria-expanded="false" aria-controls="m3"><span>Умный дом</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="panel" id="m3"><div class="panel-inner"><p class="panel-title">Умный дом</p><ul class="l2" role="list"><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m3-0"><span>Освещение</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m3-0"><p class="sub-title">Освещение</p><ul class="l3" role="list"><li><a class="leaf" href="#smart-home/light/bulbs" data-level="3"><span>Лампы</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smart-home/light/strips" data-level="3"><span>Светодиодные ленты</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smart-home/light/switches" data-level="3"><span>Выключатели</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m3-1"><span>Безопасность</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m3-1"><p class="sub-title">Безопасность</p><ul class="l3" role="list"><li><a class="leaf" href="#smart-home/security/cameras" data-level="3"><span>Камеры</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smart-home/security/sensors" data-level="3"><span>Датчики</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smart-home/security/locks" data-level="3"><span>Умные замки</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li><li class="has-sub"><button class="node" type="button" data-level="2" aria-expanded="false" aria-controls="m3-2"><span>Климат</span><svg class="chev" aria-hidden="true"><use href="#chevron"/></svg></button><div class="sub" id="m3-2"><p class="sub-title">Климат</p><ul class="l3" role="list"><li><a class="leaf" href="#smart-home/climate/thermostats" data-level="3"><span>Термостаты</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf" href="#smart-home/climate/purifiers" data-level="3"><span>Очистители воздуха</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul></div></li></ul><p class="panel-hint">Выберите раздел — откроется третий уровень</p></div></div></li><li><a class="leaf top" href="#sale" data-level="1"><span>Акции</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li><li><a class="leaf top" href="#support" data-level="1"><span>Поддержка</span><svg class="go" aria-hidden="true"><use href="#arrow"/></svg></a></li></ul>
+    </nav>
   </div>
+</header>
+<div class="scrim" id="scrim" hidden></div>
 
-  <script src="script.js"></script>
+<main class="page">
+  <a class="crumb" href="../">‹ Контрольные точки</a>
+  <section class="hero" id="hero">
+    <p class="eyebrow">КТ №3 · Выпадающее меню на три уровня</p>
+    <h1>Техника, которая<br>просто работает.</h1>
+    <p class="lede">Откройте каталог в&nbsp;шапке. Раздел со&nbsp;стрелкой вниз разворачивается, а&nbsp;пункт со&nbsp;стрелкой вправо&nbsp;— это ссылка, по&nbsp;которой можно перейти.</p>
+  </section>
+
+  <section class="result" id="result" aria-live="polite" hidden>
+    <ol class="path" id="path"></ol>
+    <h2 id="result-title"></h2>
+    <p class="result-link">Ссылка: <code id="result-href"></code></p>
+    <div class="siblings" id="siblings"></div>
+  </section>
+
+  <section class="legend" aria-label="Как читать меню">
+    <div><span class="key"><svg><use href="#chevron"/></svg></span><p><strong>Раскрывается.</strong> У пункта есть вложенный уровень.</p></div>
+    <div><span class="key"><svg><use href="#arrow"/></svg></span><p><strong>Ссылка.</strong> Вложенных пунктов нет — можно перейти.</p></div>
+    <div><span class="key">Esc</span><p><strong>Закрыть.</strong> Или щёлкните мимо меню.</p></div>
+  </section>
+</main>
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Звук — ВОЛНА·7</title>
+<meta name="description" content="Сыграйте на ВОЛНА·7 прямо в браузере: фильтр, огибающая, четыре формы волны и пресеты.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/sound.css">
+</head>
+<body>
+<header class="gnav">
+  <nav class="gnav-inner" aria-label="Разделы">
+    <a class="brand" href="index.html">ВОЛНА·7</a>
+    <ul class="gnav-links">
+      <li><a href="index.html">Обзор</a></li>
+      <li><a href="sound.html" aria-current="page">Звук</a></li>
+      <li class="optional"><a href="../">КТ</a></li>
+    </ul>
+    <a class="gnav-buy" href="buy.html">Купить</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Звук</p>
+      <h1 class="headline reveal">Студия в&nbsp;одном корпусе.</h1>
+      <p class="lede reveal">Это не&nbsp;запись. Каждая нота рождается прямо сейчас&nbsp;— в&nbsp;вашем браузере, из&nbsp;двух осцилляторов и&nbsp;настоящего фильтра.</p>
+    </div>
+  </section>
+
+  <section class="studio" data-theme="dark" aria-labelledby="studio-title">
+    <div class="wrap">
+      <h2 class="sr" id="studio-title">Студия</h2>
+      <div class="device reveal" id="device"></div>
+
+      <div class="console reveal">
+        <div class="scope-wrap">
+          <canvas class="scope" id="scope" aria-label="Осциллограф"></canvas>
+          <p class="readout" id="readout">Сыграйте ноту</p>
+        </div>
+
+        <div class="controls">
+          <div class="knobs" id="knobs">
+            <div class="knob" data-param="cutoff" data-label="Фильтр" data-unit="Гц"></div>
+            <div class="knob" data-param="resonance" data-label="Резонанс" data-unit="%"></div>
+            <div class="knob" data-param="attack" data-label="Атака" data-unit="мс"></div>
+            <div class="knob" data-param="release" data-label="Затухание" data-unit="мс"></div>
+            <div class="knob" data-param="volume" data-label="Громкость" data-unit="%"></div>
+          </div>
+
+          <div class="row">
+            <div class="segmented" role="radiogroup" aria-label="Форма волны" id="waves">
+              <button type="button" role="radio" aria-checked="false" data-wave="sine">Синус</button>
+              <button type="button" role="radio" aria-checked="false" data-wave="triangle">Треугольник</button>
+              <button type="button" role="radio" aria-checked="true" data-wave="sawtooth">Пила</button>
+              <button type="button" role="radio" aria-checked="false" data-wave="square">Меандр</button>
+            </div>
+            <div class="octave" aria-label="Октава">
+              <button type="button" id="oct-down" aria-label="Октава ниже">−</button>
+              <output id="octave">Октава 4</output>
+              <button type="button" id="oct-up" aria-label="Октава выше">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="presets reveal" role="radiogroup" aria-label="Пресеты">
+        <button class="preset" type="button" role="radio" aria-checked="false" data-preset="pad"><span class="preset-name">Тёплый пэд</span><span class="preset-desc">Мягкая атака, длинный хвост</span></button>
+        <button class="preset" type="button" role="radio" aria-checked="false" data-preset="bass"><span class="preset-name">Кислотный бас</span><span class="preset-desc">Резонанс на пределе</span></button>
+        <button class="preset" type="button" role="radio" aria-checked="false" data-preset="glass"><span class="preset-name">Стекло</span><span class="preset-desc">Чистый синус, звон</span></button>
+        <button class="preset" type="button" role="radio" aria-checked="false" data-preset="brass"><span class="preset-name">Медь</span><span class="preset-desc">Яркая пила, плотно</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="keys-help" aria-labelledby="help-title">
+    <div class="wrap">
+      <h2 class="section-title center reveal" id="help-title">Играйте как&nbsp;удобно.</h2>
+      <div class="help-grid">
+        <article class="help reveal"><h3>Клавиатура компьютера</h3><p><span class="kbd">A</span> <span class="kbd">S</span> <span class="kbd">D</span> … <span class="kbd">K</span>&nbsp;— белые клавиши, <span class="kbd">W</span> <span class="kbd">E</span> <span class="kbd">T</span> <span class="kbd">Y</span> <span class="kbd">U</span>&nbsp;— чёрные. <span class="kbd">Z</span> и&nbsp;<span class="kbd">X</span> меняют октаву.</p></article>
+        <article class="help reveal"><h3>Мышь и&nbsp;палец</h3><p>Нажимайте клавиши на&nbsp;синтезаторе и&nbsp;ведите по&nbsp;ним&nbsp;— получится глиссандо. Ручки крутятся движением вверх-вниз или колёсиком.</p></article>
+        <article class="help reveal"><h3>Звук без мыши</h3><p><span class="kbd">1</span>…<span class="kbd">4</span>&nbsp;— форма волны, <span class="kbd">Tab</span>&nbsp;— к&nbsp;ручке, стрелки&nbsp;— поворот, двойной щелчок&nbsp;— сброс.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-note">Звук синтезируется Web Audio API: два осциллятора на&nbsp;голос, фильтр нижних частот и&nbsp;огибающая громкости. Если звука нет&nbsp;— проверьте, не&nbsp;выключен&nbsp;ли он на&nbsp;устройстве.</p>
+    <div class="footer-cols">
+      <div><h3>Синтезатор</h3><ul><li><a href="index.html">Обзор</a></li><li><a href="sound.html">Звук</a></li><li><a href="buy.html">Купить</a></li></ul></div>
+      <div><h3>Управление</h3><ul><li>A…K&nbsp;— ноты</li><li>Z / X&nbsp;— октава</li><li>1…4&nbsp;— форма волны</li></ul></div>
+      <div><h3>Проект</h3><ul><li><a href="../">Все контрольные точки</a></li><li>Мхитарян Тигран</li></ul></div>
+    </div>
+    <p class="footer-legal">КТ №6 · Многостраничный промо-сайт с&nbsp;динамическими эффектами.</p>
+  </div>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/synth.js"></script>
+<script src="js/sound.js"></script>
+</body>
+</html>

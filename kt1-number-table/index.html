@@ -1,15 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS DOM CP1</title>
-    <link rel="stylesheet" href="T1.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Таблица чисел — КТ №1</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="table-container"></div>
-    <button onclick="foo()">Добавить число</button>
+<main class="page">
+  <a class="crumb" href="../">‹ Контрольные точки</a>
+  <header class="intro">
+    <p class="eyebrow">КТ №1 · Document Object Model</p>
+    <h1>Таблица чисел</h1>
+    <p class="lede">Тридцать случайных чисел от&nbsp;0 до&nbsp;99 в&nbsp;таблице 5&nbsp;×&nbsp;6. Всё, что от&nbsp;50 и&nbsp;выше, отмечено оранжевым.</p>
+  </header>
 
-    <script src="T1.js"></script>
+  <section class="card" aria-labelledby="table-title">
+    <div class="card-head">
+      <h2 id="table-title">Числа</h2>
+      <div class="actions">
+        <button class="plain" type="button" id="reset">Новая таблица</button>
+        <button class="filled" onclick="foo()">Добавить число</button>
+      </div>
+    </div>
+    <div class="scroller">
+      <table id="numbers" aria-describedby="legend"></table>
+    </div>
+    <p class="legend" id="legend"><span class="swatch" aria-hidden="true"></span>50 и больше</p>
+  </section>
+
+  <dl class="stats" aria-live="polite">
+    <div><dt>Всего</dt><dd id="stat-count">0</dd></div>
+    <div><dt>От 50 и выше</dt><dd id="stat-high">0</dd></div>
+    <div><dt>Среднее</dt><dd id="stat-avg">0</dd></div>
+    <div><dt>Максимум</dt><dd id="stat-max">0</dd></div>
+  </dl>
+</main>
+<script src="script.js"></script>
 </body>
 </html>

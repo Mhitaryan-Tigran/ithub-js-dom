@@ -1,241 +1,195 @@
-const preview = document.getElementById('preview');
-const compareBtn = document.getElementById('compareBtn');
-const resetBtn = document.getElementById('resetBtn');
-const presetsBox = document.getElementById('presets');
-
-const presets = {
+const PRESETS = {
   none: { exposure: 0, contrast: 0, saturation: 100, temperature: 0, vignette: 0, grain: 0 },
   cinema: { exposure: -8, contrast: 28, saturation: 85, temperature: -12, vignette: 45, grain: 20 },
   warm: { exposure: 10, contrast: 8, saturation: 125, temperature: 38, vignette: 20, grain: 0 },
   cold: { exposure: 4, contrast: 18, saturation: 70, temperature: -40, vignette: 30, grain: 10 },
-  film: { exposure: 6, contrast: -14, saturation: 110, temperature: 16, vignette: 60, grain: 60 }
+  film: { exposure: 6, contrast: -14, saturation: 110, temperature: 16, vignette: 60, grain: 60 },
 };
 
 const sliders = {};
+const values = { ...PRESETS.none };
+let comparing = false;
 
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
+function clamp(v, min, max) {
+  return Math.min(max, Math.max(min, v));
 }
 
-function snap(value, min, step) {
-  return min + Math.round((value - min) / step) * step;
+function look(v) {
+  const filter = `brightness(${1 + v.exposure / 200}) contrast(${1 + v.contrast / 150}) saturate(${v.saturation / 100})`;
+  const t = v.temperature;
+  const temp = t === 0 ? "transparent" : t > 0 ? `rgba(255, 140, 40, ${t / 80})` : `rgba(40, 120, 255, ${-t / 80})`;
+  return { filter, temp, vignette: v.vignette / 100, grain: v.grain / 160 };
 }
 
-function formatValue(value, bipolar, suffix) {
-  const sign = bipolar && value > 0 ? '+' : '';
-  return sign + value + suffix;
+function render() {
+  const l = look(comparing ? PRESETS.none : values);
+  document.getElementById("scene-view").style.filter = l.filter;
+  document.getElementById("layer-temp").style.background = l.temp;
+  document.getElementById("layer-vignette").style.opacity = l.vignette;
+  document.getElementById("layer-grain").style.opacity = l.grain;
+  document.getElementById("badge").hidden = !comparing;
+  const changed = Object.keys(values).some((k) => values[k] !== PRESETS.none[k]);
+  document.getElementById("resetAll").disabled = !changed;
+  const current = Object.keys(PRESETS).find((name) => Object.keys(values).every((k) => PRESETS[name][k] === values[k]));
+  document.querySelectorAll(".preset").forEach((p) => p.setAttribute("aria-checked", String(p.dataset.preset === current)));
 }
 
-function createSlider(root) {
-  const min = Number(root.dataset.min);
-  const max = Number(root.dataset.max);
-  const step = Number(root.dataset.step) || 1;
-  const initial = Number(root.dataset.value);
-  const suffix = root.dataset.suffix || '';
-  const bipolar = 'bipolar' in root.dataset;
-  let value = initial;
+function format(s, v) {
+  const sign = s.bipolar && v > 0 ? "+" : "";
+  return `${sign}${v}${s.suffix}`;
+}
 
-  const slider = document.createElement('div');
-  slider.className = 'slider';
-  slider.tabIndex = 0;
-  slider.setAttribute('role', 'slider');
-  slider.setAttribute('aria-label', root.querySelector('.control-name').textContent);
-  slider.setAttribute('aria-valuemin', min);
-  slider.setAttribute('aria-valuemax', max);
-
-  const track = document.createElement('div');
-  track.className = 'slider-track';
-  const fill = document.createElement('div');
-  fill.className = 'slider-fill';
-  track.appendChild(fill);
-
-  if (bipolar) {
-    const center = document.createElement('div');
-    center.className = 'slider-center';
-    track.appendChild(center);
+function setValue(s, raw, commit = true) {
+  const stepped = Math.round((raw - s.min) / s.step) * s.step + s.min;
+  const v = clamp(Number(stepped.toFixed(4)), s.min, s.max);
+  s.value = v;
+  const pct = ((v - s.min) / (s.max - s.min)) * 100;
+  s.thumb.style.left = `${pct}%`;
+  s.bubble.style.left = `${pct}%`;
+  s.bubble.textContent = format(s, v);
+  if (s.bipolar) {
+    s.fill.style.left = `${Math.min(pct, 50)}%`;
+    s.fill.style.width = `${Math.abs(pct - 50)}%`;
+  } else {
+    s.fill.style.left = "0";
+    s.fill.style.width = `${pct}%`;
   }
-
-  if ('ticks' in root.dataset) {
-    const ticks = document.createElement('div');
-    ticks.className = 'slider-ticks';
-    for (let v = min; v <= max; v += step) {
-      const tick = document.createElement('span');
-      tick.className = 'slider-tick';
-      tick.style.left = ((v - min) / (max - min)) * 100 + '%';
-      ticks.appendChild(tick);
-    }
-    slider.appendChild(ticks);
-  }
-
-  const thumb = document.createElement('div');
-  thumb.className = 'slider-thumb';
-  const bubble = document.createElement('div');
-  bubble.className = 'slider-bubble';
-  thumb.appendChild(bubble);
-
-  slider.appendChild(track);
-  slider.appendChild(thumb);
-  root.appendChild(slider);
-
-  function render() {
-    const percent = ((value - min) / (max - min)) * 100;
-    thumb.style.left = percent + '%';
-    bubble.textContent = formatValue(value, bipolar, suffix);
-    slider.setAttribute('aria-valuenow', value);
-    slider.setAttribute('aria-valuetext', bubble.textContent);
-    root.classList.toggle('is-changed', value !== initial);
-    if (bipolar) {
-      fill.style.left = Math.min(50, percent) + '%';
-      fill.style.width = Math.abs(percent - 50) + '%';
-    } else {
-      fill.style.left = '0';
-      fill.style.width = percent + '%';
-    }
-  }
-
-  function setValue(next, silent) {
-    const snapped = clamp(snap(next, min, step), min, max);
-    if (snapped === value) return;
-    value = snapped;
+  s.el.setAttribute("aria-valuenow", v);
+  s.el.setAttribute("aria-valuetext", format(s, v));
+  s.box.classList.toggle("is-changed", v !== s.initial);
+  if (commit) {
+    values[s.id] = v;
     render();
-    if (!silent) applyPreview();
   }
+}
 
-  function valueFromX(clientX) {
-    const rect = slider.getBoundingClientRect();
-    const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
-    return min + ratio * (max - min);
-  }
+function fromPointer(s, clientX) {
+  const rect = s.el.getBoundingClientRect();
+  const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
+  return s.min + ratio * (s.max - s.min);
+}
 
-  function onMouseDown(event) {
+function build(box) {
+  const d = box.dataset;
+  const s = {
+    id: d.id,
+    box,
+    min: Number(d.min),
+    max: Number(d.max),
+    step: Number(d.step),
+    initial: Number(d.value),
+    suffix: d.suffix || "",
+    bipolar: "bipolar" in d,
+  };
+  const el = document.createElement("div");
+  el.className = "slider";
+  el.tabIndex = 0;
+  el.setAttribute("role", "slider");
+  el.setAttribute("aria-labelledby", `label-${s.id}`);
+  el.setAttribute("aria-valuemin", s.min);
+  el.setAttribute("aria-valuemax", s.max);
+  el.innerHTML = `<div class="slider-track"></div>${s.bipolar ? '<div class="slider-center"></div>' : ""}<div class="slider-fill"></div><div class="slider-thumb"></div><div class="slider-value"></div>`;
+  Object.assign(s, { el, fill: el.querySelector(".slider-fill"), thumb: el.querySelector(".slider-thumb"), bubble: el.querySelector(".slider-value") });
+  box.append(el);
+
+  const start = (clientX) => {
+    el.classList.add("is-dragging");
+    document.body.classList.add("is-dragging");
+    el.focus({ preventScroll: true });
+    setValue(s, fromPointer(s, clientX));
+  };
+  const stop = () => {
+    el.classList.remove("is-dragging");
+    document.body.classList.remove("is-dragging");
+  };
+
+  el.addEventListener("mousedown", (event) => {
     if (event.button !== 0) return;
     event.preventDefault();
-    slider.focus();
-    setValue(valueFromX(event.clientX));
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-  }
-
-  function onMouseMove(event) {
-    slider.classList.add('is-dragging');
-    setValue(valueFromX(event.clientX));
-  }
-
-  function onMouseUp() {
-    slider.classList.remove('is-dragging');
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  }
-
-  function onTouchStart(event) {
-    event.preventDefault();
-    slider.classList.add('is-dragging');
-    setValue(valueFromX(event.touches[0].clientX));
-  }
-
-  function onTouchMove(event) {
-    event.preventDefault();
-    setValue(valueFromX(event.touches[0].clientX));
-  }
-
-  function onTouchEnd() {
-    slider.classList.remove('is-dragging');
-  }
-
-  function onDoubleClick() {
-    setValue(initial);
-  }
-
-  function onKeyDown(event) {
-    const big = event.shiftKey ? step * 10 : step;
-    const actions = {
-      ArrowLeft: value - big,
-      ArrowDown: value - big,
-      ArrowRight: value + big,
-      ArrowUp: value + big,
-      PageDown: value - (max - min) / 10,
-      PageUp: value + (max - min) / 10,
-      Home: min,
-      End: max
+    start(event.clientX);
+    const move = (e) => setValue(s, fromPointer(s, e.clientX));
+    const up = () => {
+      stop();
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseup", up);
     };
-    if (!(event.key in actions)) return;
-    event.preventDefault();
-    setValue(actions[event.key]);
-  }
-
-  slider.addEventListener('mousedown', onMouseDown);
-  slider.addEventListener('dblclick', onDoubleClick);
-  slider.addEventListener('keydown', onKeyDown);
-  slider.addEventListener('touchstart', onTouchStart, { passive: false });
-  slider.addEventListener('touchmove', onTouchMove, { passive: false });
-  slider.addEventListener('touchend', onTouchEnd);
-
-  render();
-
-  return {
-    get value() { return value; },
-    set: setValue,
-    reset() { setValue(initial); }
-  };
-}
-
-function applyPreview() {
-  const s = preview.style;
-  const temp = sliders.temperature.value;
-  s.setProperty('--brightness', (1 + sliders.exposure.value / 100 * 0.6).toFixed(3));
-  s.setProperty('--contrast', (1 + sliders.contrast.value / 100 * 0.6).toFixed(3));
-  s.setProperty('--saturate', (sliders.saturation.value / 100).toFixed(3));
-  s.setProperty('--temp-color', temp >= 0 ? '#ffb257' : '#4f9dff');
-  s.setProperty('--temp-alpha', (Math.abs(temp) / 50 * 0.9).toFixed(3));
-  s.setProperty('--vignette', (sliders.vignette.value / 100).toFixed(3));
-  s.setProperty('--grain', (sliders.grain.value / 100 * 0.6).toFixed(3));
-  markPreset();
-}
-
-function markPreset() {
-  const current = Object.keys(presets).find(name =>
-    Object.keys(presets[name]).every(id => presets[name][id] === sliders[id].value)
-  );
-  presetsBox.querySelectorAll('.chip').forEach(chip => {
-    chip.classList.toggle('is-active', chip.dataset.preset === current);
+    document.addEventListener("mousemove", move);
+    document.addEventListener("mouseup", up);
   });
+
+  el.addEventListener("touchstart", (event) => {
+    start(event.touches[0].clientX);
+    const move = (e) => {
+      e.preventDefault();
+      setValue(s, fromPointer(s, e.touches[0].clientX));
+    };
+    const end = () => {
+      stop();
+      el.removeEventListener("touchmove", move);
+      el.removeEventListener("touchend", end);
+      el.removeEventListener("touchcancel", end);
+    };
+    el.addEventListener("touchmove", move, { passive: false });
+    el.addEventListener("touchend", end);
+    el.addEventListener("touchcancel", end);
+  }, { passive: true });
+
+  el.addEventListener("dblclick", () => setValue(s, s.initial));
+  box.querySelector(".control-reset").addEventListener("click", () => setValue(s, s.initial));
+
+  el.addEventListener("keydown", (event) => {
+    const big = event.shiftKey ? 10 : 1;
+    const moves = {
+      ArrowRight: s.value + s.step * big,
+      ArrowUp: s.value + s.step * big,
+      ArrowLeft: s.value - s.step * big,
+      ArrowDown: s.value - s.step * big,
+      PageUp: s.value + s.step * 10,
+      PageDown: s.value - s.step * 10,
+      Home: s.min,
+      End: s.max,
+    };
+    if (event.key in moves) {
+      event.preventDefault();
+      setValue(s, moves[event.key]);
+    }
+  });
+
+  sliders[s.id] = s;
+  setValue(s, s.initial);
 }
 
 function applyPreset(name) {
-  const values = presets[name];
-  Object.keys(values).forEach(id => sliders[id].set(values[id], true));
-  applyPreview();
+  for (const [id, v] of Object.entries(PRESETS[name])) setValue(sliders[id], v, false);
+  Object.assign(values, PRESETS[name]);
+  render();
 }
 
-function onPresetClick(event) {
-  const chip = event.target.closest('.chip');
-  if (chip) applyPreset(chip.dataset.preset);
-}
+document.querySelectorAll(".control").forEach(build);
 
-function showOriginal(event) {
-  event.preventDefault();
-  preview.classList.add('is-original');
-  compareBtn.classList.add('is-held');
-}
-
-function hideOriginal() {
-  preview.classList.remove('is-original');
-  compareBtn.classList.remove('is-held');
-}
-
-document.querySelectorAll('.control').forEach(root => {
-  sliders[root.dataset.id] = createSlider(root);
+document.querySelectorAll(".preset").forEach((button) => {
+  const l = look(PRESETS[button.dataset.preset]);
+  button.querySelector("svg").style.filter = l.filter;
+  button.querySelector(".t-temp").style.background = l.temp;
+  button.querySelector(".t-vig").style.opacity = l.vignette;
+  button.addEventListener("click", () => applyPreset(button.dataset.preset));
 });
 
-presetsBox.addEventListener('click', onPresetClick);
-resetBtn.addEventListener('click', () => applyPreset('none'));
-compareBtn.addEventListener('mousedown', showOriginal);
-compareBtn.addEventListener('mouseup', hideOriginal);
-compareBtn.addEventListener('mouseleave', hideOriginal);
-compareBtn.addEventListener('touchstart', showOriginal, { passive: false });
-compareBtn.addEventListener('touchend', hideOriginal);
-preview.addEventListener('mousedown', showOriginal);
-preview.addEventListener('mouseup', hideOriginal);
-preview.addEventListener('mouseleave', hideOriginal);
+document.getElementById("resetAll").addEventListener("click", () => applyPreset("none"));
 
-applyPreview();
+const photo = document.getElementById("photo");
+const compare = (on) => {
+  comparing = on;
+  render();
+};
+photo.addEventListener("mousedown", () => compare(true));
+photo.addEventListener("touchstart", () => compare(true), { passive: true });
+["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((type) => photo.addEventListener(type, () => comparing && compare(false)));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "\\" && !event.repeat) compare(true);
+});
+document.addEventListener("keyup", (event) => {
+  if (event.key === "\\") compare(false);
+});
+
+render();

@@ -1,139 +1,97 @@
-const RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+(function () {
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const subscribers = [];
+  let target = window.scrollY;
+  let smooth = target;
+  let running = false;
 
-const lerp = (a, b, t) => a + (b - a) * t;
+  function mapRange(value, inA, inB, outA, outB) {
+    const t = Math.max(0, Math.min(1, (value - inA) / (inB - inA)));
+    return outA + t * (outB - outA);
+  }
 
-const curtain = document.querySelector(".curtain");
+  function progress(el, scroll) {
+    const start = el.offsetTop;
+    const end = start + el.offsetHeight - window.innerHeight;
+    return end <= start ? 0 : Math.max(0, Math.min(1, (scroll - start) / (end - start)));
+  }
 
-function openCurtain() {
-  requestAnimationFrame(() => curtain.classList.add("is-open"));
-}
+  function tick() {
+    smooth += (target - smooth) * (reduced ? 1 : 0.1);
+    if (Math.abs(target - smooth) < 0.1) smooth = target;
+    subscribers.forEach((fn) => fn(smooth));
+    if (smooth !== target) requestAnimationFrame(tick);
+    else running = false;
+  }
 
-window.addEventListener("pageshow", openCurtain);
-
-document.querySelectorAll('a[href$=".html"]').forEach((link) => {
-  link.addEventListener("click", (e) => {
-    if (e.metaKey || e.ctrlKey) return;
-    e.preventDefault();
-    const label = link.dataset.label || link.textContent.trim();
-    curtain.querySelector("span").textContent = label;
-    curtain.classList.remove("is-open");
-    curtain.classList.add("is-closing");
-    setTimeout(() => {
-      window.location.href = link.getAttribute("href");
-    }, RM ? 0 : 620);
-  });
-});
-
-const page = location.pathname.split("/").pop() || "index.html";
-document.querySelectorAll(".menu a").forEach((a) => {
-  if (a.getAttribute("href") === page) a.classList.add("is-active");
-});
-
-const glow = document.querySelector(".glow");
-if (glow && !RM) {
-  let gx = innerWidth / 2;
-  let gy = innerHeight / 2;
-  let tx = gx;
-  let ty = gy;
-  window.addEventListener("mousemove", (e) => {
-    tx = e.clientX;
-    ty = e.clientY;
-  });
-  (function tickGlow() {
-    gx = lerp(gx, tx, 0.08);
-    gy = lerp(gy, ty, 0.08);
-    glow.style.transform = `translate(${gx}px, ${gy}px)`;
-    requestAnimationFrame(tickGlow);
-  })();
-}
-
-window.addEventListener("keydown", (e) => {
-  const name = e.key === " " ? "Space" : e.key;
-  document.querySelectorAll("kbd").forEach((k) => {
-    if (k.dataset.key === name || k.dataset.key === e.code) {
-      k.classList.add("is-hit");
+  function wake() {
+    if (!running) {
+      running = true;
+      requestAnimationFrame(tick);
     }
+  }
+
+  window.addEventListener("scroll", () => {
+    target = window.scrollY;
+    wake();
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    target = window.scrollY;
+    wake();
   });
-});
 
-window.addEventListener("keyup", () => {
-  document.querySelectorAll("kbd.is-hit").forEach((k) => k.classList.remove("is-hit"));
-});
+  function onScroll(fn) {
+    subscribers.push(fn);
+    fn(smooth);
+  }
 
-const revealer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-in");
-        revealer.unobserve(entry.target);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("is-in");
+        io.unobserve(e.target);
       }
     });
-  },
-  { threshold: 0.15 }
-);
+  }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 
-document.querySelectorAll(".reveal").forEach((el) => revealer.observe(el));
-
-document.querySelectorAll(".display").forEach((title) => {
-  const words = title.textContent.trim().split(/\s+/);
-  title.innerHTML = "";
-  let index = 0;
-  words.forEach((word, wi) => {
-    const w = document.createElement("span");
-    w.className = "word";
-    [...word].forEach((char) => {
-      const c = document.createElement("span");
-      c.className = "ch";
-      c.textContent = char;
-      c.style.transitionDelay = `${index * 35}ms`;
-      index++;
-      w.appendChild(c);
+  const themed = [...document.querySelectorAll("[data-theme='dark']")];
+  if (themed.length) {
+    onScroll(() => {
+      const mid = window.innerHeight * 0.5;
+      const dark = themed.some((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < mid && r.bottom > mid;
+      });
+      document.body.classList.toggle("is-dark", dark);
     });
-    if (title.dataset.accent && title.dataset.accent.split(",").includes(String(wi))) {
-      w.classList.add("accent");
-    }
-    title.appendChild(w);
-    if (wi < words.length - 1) title.appendChild(document.createTextNode(" "));
-  });
-  setTimeout(() => title.classList.add("is-in"), 400);
-});
-
-document.querySelectorAll(".ticker div").forEach((row) => {
-  row.innerHTML += row.innerHTML;
-  if (RM) return;
-  let x = 0;
-  const half = row.scrollWidth / 2;
-  (function tickTicker() {
-    x -= 0.6;
-    if (-x >= half) x = 0;
-    row.style.transform = `translateX(${x}px)`;
-    requestAnimationFrame(tickTicker);
-  })();
-});
-
-function animateNumber(el, to, duration = 1400) {
-  const from = 0;
-  const suffix = el.dataset.suffix || "";
-  const decimals = Number(el.dataset.decimals || 0);
-  if (RM) {
-    el.textContent = to.toFixed(decimals) + suffix;
-    return;
   }
-  const start = performance.now();
-  (function step(now) {
-    const t = Math.min(1, (now - start) / duration);
-    const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = lerp(from, to, eased).toFixed(decimals) + suffix;
-    if (t < 1) requestAnimationFrame(step);
-  })(start);
-}
 
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    animateNumber(entry.target, Number(entry.target.dataset.to));
-    counterObserver.unobserve(entry.target);
-  });
-});
+  function countUp(el) {
+    const end = Number(el.dataset.count);
+    const decimals = (el.dataset.count.split(".")[1] || "").length;
+    if (reduced) {
+      el.textContent = end.toFixed(decimals).replace(".", ",");
+      return;
+    }
+    const t0 = performance.now();
+    const dur = 1400;
+    (function step(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - t, 4);
+      el.textContent = (end * eased).toFixed(decimals).replace(".", ",");
+      if (t < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+  const counters = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        countUp(e.target);
+        counters.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll("[data-count]").forEach((el) => counters.observe(el));
 
-document.querySelectorAll("[data-to]").forEach((el) => counterObserver.observe(el));
+  window.Motion = { reduced, mapRange, progress, onScroll };
+})();

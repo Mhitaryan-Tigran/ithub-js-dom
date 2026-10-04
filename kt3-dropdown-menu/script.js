@@ -1,135 +1,116 @@
-const menu = document.getElementById("menu");
+const gnav = document.getElementById("gnav");
 const burger = document.getElementById("burger");
-const closeButton = document.getElementById("menu-close");
-const toast = document.getElementById("toast");
-const toastPath = toast.querySelector(".toast__path");
-const toastGo = toast.querySelector(".toast__go");
-const desktop = window.matchMedia("(min-width: 901px)");
-let toastTimer = 0;
+const scrim = document.getElementById("scrim");
+const mobile = matchMedia("(max-width: 833px)");
 
-menu.querySelectorAll(".menu__link").forEach((link, index) => {
-  const sub = link.parentElement.querySelector(":scope > .menu__sub");
-  if (sub) {
-    sub.id = "submenu-" + (index + 1);
-    link.classList.add("menu__link--parent");
-    link.setAttribute("role", "button");
-    link.setAttribute("aria-expanded", "false");
-    link.setAttribute("aria-controls", sub.id);
-  } else {
-    link.classList.add("menu__link--leaf");
-    link.setAttribute("title", "Перейти: " + link.getAttribute("href"));
-  }
-});
-
-function linkOf(item) {
-  return item.querySelector(":scope > .menu__link");
-}
-
-function closeItem(item) {
-  [item, ...item.querySelectorAll(".menu__item.is-open")].forEach((el) => {
-    el.classList.remove("is-open");
-    linkOf(el).setAttribute("aria-expanded", "false");
-  });
-}
-
-function openItem(item) {
-  item.parentElement.querySelectorAll(":scope > .menu__item.is-open").forEach(closeItem);
-  item.classList.add("is-open");
-  linkOf(item).setAttribute("aria-expanded", "true");
-}
-
-function syncBackdrop() {
-  const openTop = menu.querySelector('.menu__list[data-level="1"] > .menu__item.is-open');
-  document.body.classList.toggle("has-dropdown", Boolean(openTop));
+function setOpen(item, open) {
+  item.classList.toggle("is-open", open);
+  item.querySelector(":scope > .node").setAttribute("aria-expanded", String(open));
+  if (!open) item.querySelectorAll(".has-sub.is-open").forEach((child) => setOpen(child, false));
 }
 
 function closeAll() {
-  menu.querySelectorAll(".menu__item.is-open").forEach(closeItem);
-  syncBackdrop();
+  document.querySelectorAll(".l1 > .has-sub.is-open").forEach((item) => setOpen(item, false));
+  scrim.hidden = true;
 }
 
-function setDrawer(open) {
-  menu.classList.toggle("is-open", open);
-  burger.setAttribute("aria-expanded", String(open));
-  burger.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
-  document.body.classList.toggle("drawer-open", open);
+function closeMobile() {
+  gnav.classList.remove("is-open");
+  burger.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
 }
 
-function pathOf(link) {
-  const names = [];
-  let item = link.closest(".menu__item");
+function toggle(node) {
+  const item = node.parentElement;
+  const open = !item.classList.contains("is-open");
+  item.parentElement.querySelectorAll(":scope > .has-sub.is-open").forEach((sibling) => {
+    if (sibling !== item) setOpen(sibling, false);
+  });
+  setOpen(item, open);
+  if (node.dataset.level === "1" && !mobile.matches) scrim.hidden = !open;
+}
+
+function trail(link) {
+  const names = [link.querySelector("span").textContent];
+  let item = link.closest(".has-sub");
   while (item) {
-    names.unshift(linkOf(item).textContent.trim());
-    item = item.parentElement.closest(".menu__item");
+    names.unshift(item.querySelector(":scope > .node span").textContent);
+    item = item.parentElement.closest(".has-sub");
   }
-  return names.join(" → ");
+  return names;
 }
 
-function showToast(link) {
-  toastPath.textContent = pathOf(link);
-  toastGo.setAttribute("href", link.getAttribute("href"));
-  toast.classList.add("is-visible");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 4000);
+function follow(link) {
+  const names = trail(link);
+  document.getElementById("path").replaceChildren(...["Вольт", ...names.slice(0, -1)].map((name) => Object.assign(document.createElement("li"), { textContent: name })));
+  document.getElementById("result-title").textContent = names.at(-1);
+  document.getElementById("result-href").textContent = link.getAttribute("href");
+  const siblings = [...link.closest("ul").querySelectorAll(":scope > li > .leaf")].filter((a) => a !== link);
+  document.getElementById("siblings").replaceChildren(...siblings.map((a) => {
+    const chip = document.createElement("a");
+    chip.href = a.getAttribute("href");
+    chip.textContent = a.querySelector("span").textContent;
+    chip.addEventListener("click", (event) => {
+      event.preventDefault();
+      follow(a);
+    });
+    return chip;
+  }));
+  const result = document.getElementById("result");
+  result.hidden = false;
+  result.style.animation = "none";
+  void result.offsetWidth;
+  result.style.animation = "";
+  history.replaceState(null, "", link.getAttribute("href"));
+  closeAll();
+  closeMobile();
+  result.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
 }
 
-menu.addEventListener("click", (event) => {
-  const link = event.target.closest(".menu__link");
-  if (!link) return;
-  event.preventDefault();
-  const item = link.parentElement;
-  if (link.classList.contains("menu__link--parent")) {
-    const expanded = link.getAttribute("aria-expanded") === "true";
-    expanded ? closeItem(item) : openItem(item);
-    if (item.parentElement.dataset.level === "1") syncBackdrop();
-  } else {
-    showToast(link);
-  }
-});
-
-menu.addEventListener("keydown", (event) => {
-  if (event.key === " " && event.target.classList.contains("menu__link--parent")) {
+document.getElementById("menu").addEventListener("click", (event) => {
+  const node = event.target.closest(".node");
+  if (node) return toggle(node);
+  const link = event.target.closest(".leaf");
+  if (link) {
     event.preventDefault();
-    event.target.click();
+    follow(link);
   }
 });
 
-menu.addEventListener("focusout", (event) => {
-  const next = event.relatedTarget;
-  if (desktop.matches && next && !menu.contains(next)) closeAll();
+document.querySelectorAll(".leaf").forEach((link) => {
+  link.title = `Ссылка: ${link.getAttribute("href")}`;
 });
 
 burger.addEventListener("click", () => {
-  setDrawer(burger.getAttribute("aria-expanded") !== "true");
+  const open = !gnav.classList.contains("is-open");
+  gnav.classList.toggle("is-open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  document.body.classList.toggle("menu-open", open);
+  if (!open) closeAll();
 });
 
-closeButton.addEventListener("click", () => {
-  closeAll();
-  setDrawer(false);
-  burger.focus();
-});
-
-toastGo.addEventListener("click", () => {
-  toast.classList.remove("is-visible");
-});
+scrim.addEventListener("click", closeAll);
 
 document.addEventListener("click", (event) => {
-  if (menu.contains(event.target) || burger.contains(event.target)) return;
-  closeAll();
-  setDrawer(false);
+  if (!gnav.contains(event.target) && !mobile.matches) closeAll();
 });
 
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
-  const drawerOpen = menu.classList.contains("is-open");
-  const openTopLink = menu.querySelector('.menu__list[data-level="1"] > .menu__item.is-open > .menu__link');
-  closeAll();
-  setDrawer(false);
-  if (drawerOpen) burger.focus();
-  else if (openTopLink) openTopLink.focus();
+  const open = [...document.querySelectorAll(".has-sub.is-open")].at(-1);
+  if (open) {
+    setOpen(open, false);
+    open.querySelector(":scope > .node").focus();
+    if (!document.querySelector(".l1 > .has-sub.is-open")) scrim.hidden = true;
+  } else {
+    closeMobile();
+  }
 });
 
-desktop.addEventListener("change", () => {
+mobile.addEventListener("change", () => {
   closeAll();
-  setDrawer(false);
+  closeMobile();
 });
+
+const initial = [...document.querySelectorAll(".leaf")].find((a) => a.getAttribute("href") === location.hash);
+if (initial) follow(initial);

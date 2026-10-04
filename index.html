@@ -2,32 +2,66 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <title>JavaScript DOM — контрольные точки</title>
 <style>
-:root{color-scheme:dark}
-body{margin:0;min-height:100vh;font-family:-apple-system,"Segoe UI",Inter,system-ui,sans-serif;background:radial-gradient(1200px 600px at 20% -10%,#1f2a44 0%,#0b0d12 55%);color:#e9ecf2}
-main{max-width:760px;margin:0 auto;padding:72px 20px}
-h1{font-size:clamp(32px,6vw,52px);letter-spacing:-.02em;margin:0 0 8px}
-p{color:#9aa3b5;margin:0 0 36px}
-ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:inherit;text-decoration:none;transition:transform .2s,background .2s,border-color .2s}
-a:hover{transform:translateY(-2px);background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)}
-span{color:#7f8aa3;font-size:14px}
+:root {
+  color-scheme: light dark;
+  --bg: #f5f5f7;
+  --surface: #ffffff;
+  --label: #1d1d1f;
+  --label-2: rgba(60, 60, 67, 0.62);
+  --label-3: rgba(60, 60, 67, 0.3);
+  --separator: rgba(60, 60, 67, 0.14);
+  --accent: #0071e3;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --surface: #1c1c1e;
+    --label: #f5f5f7;
+    --label-2: rgba(235, 235, 245, 0.62);
+    --label-3: rgba(235, 235, 245, 0.3);
+    --separator: rgba(84, 84, 88, 0.5);
+    --accent: #2997ff;
+    --shadow: 0 0 0 0 transparent;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--label); font: 17px/1.47 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, sans-serif; letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; }
+main { max-width: 760px; margin: 0 auto; padding: max(72px, env(safe-area-inset-top)) 20px 80px; }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 17px; font-weight: 600; }
+h1 { margin: 0; font: 700 clamp(2.75rem, 4vw + 1.4rem, 4rem)/1.05 -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif; letter-spacing: -0.035em; }
+.lede { margin: 16px 0 48px; color: var(--label-2); font-size: 21px; line-height: 1.38; }
+ol { margin: 0; padding: 0; list-style: none; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+li + li a { border-top: 1px solid var(--separator); }
+a { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 16px; min-height: 76px; padding: 14px 20px; color: inherit; text-decoration: none; transition: background 180ms ease; }
+a:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+a:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: -3px; }
+.num { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background: var(--bg); color: var(--label-2); font-weight: 600; font-variant-numeric: tabular-nums; }
+.title { display: block; font-weight: 600; }
+.desc { display: block; color: var(--label-2); font-size: 15px; }
+.chev { color: var(--label-3); font-size: 20px; }
+footer { margin-top: 32px; color: var(--label-2); font-size: 13px; text-align: center; }
+footer a { display: inline; color: var(--accent); padding: 0; min-height: 0; }
 </style>
 </head>
 <body>
 <main>
-<h1>JavaScript DOM</h1>
-<p>Мхитарян Тигран, ИСП9 · контрольные точки</p>
-<ul>
-<li><a href="kt1-number-table/">КТ №1. Таблица с генерацией чисел<span>→</span></a></li>
-<li><a href="kt2-page-content/">КТ №2. Работа с контентом на странице<span>→</span></a></li>
-<li><a href="kt3-dropdown-menu/">КТ №3. Выпадающее меню<span>→</span></a></li>
-<li><a href="kt4-slider/">КТ №4. Слайдер<span>→</span></a></li>
-<li><a href="kt5-bank-card/">КТ №5. Банковская карта<span>→</span></a></li>
-<li><a href="kt6-promo-site/">КТ №6. Промо-сайт «ВОЛНА·7»<span>→</span></a></li>
-</ul>
+  <p class="eyebrow">Мхитарян Тигран · ИСП9</p>
+  <h1>JavaScript DOM</h1>
+  <p class="lede">Шесть контрольных точек: от&nbsp;таблицы чисел до&nbsp;многостраничного промо-сайта.</p>
+  <ol>
+    <li><a href="kt1-number-table/"><span class="num">1</span><span><span class="title">Таблица чисел</span><span class="desc">Таблица 5×6, числа от&nbsp;50 подсвечены, кнопка добавляет новое</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+    <li><a href="kt2-page-content/"><span class="num">2</span><span><span class="title">Котики ищут дом</span><span class="desc">Возраст с&nbsp;правильным склонением, любимцы, рейтинг звёздами</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+    <li><a href="kt3-dropdown-menu/"><span class="num">3</span><span><span class="title">Меню на три уровня</span><span class="desc">Каталог магазина «Вольт», раскрывается по&nbsp;клику</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+    <li><a href="kt4-slider/"><span class="num">4</span><span><span class="title">Слайдеры «Проявка»</span><span class="desc">Шесть слайдеров на&nbsp;событиях мыши правят фотографию</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+    <li><a href="kt5-bank-card/"><span class="num">5</span><span><span class="title">Банковская карта</span><span class="desc">Форма, живая миниатюра карты и&nbsp;таблица добавленных карт</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+    <li><a href="kt6-promo-site/"><span class="num">6</span><span><span class="title">Промо-сайт ВОЛНА·7</span><span class="desc">Три страницы, звук в&nbsp;браузере, анимации от&nbsp;мыши и&nbsp;клавиатуры</span></span><span class="chev" aria-hidden="true">›</span></a></li>
+  </ol>
+  <footer>Код: <a href="https://github.com/Mhitaryan-Tigran/ithub-js-dom">github.com/Mhitaryan-Tigran/ithub-js-dom</a></footer>
 </main>
 </body>
 </html>

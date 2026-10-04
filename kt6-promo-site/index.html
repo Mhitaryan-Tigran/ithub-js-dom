@@ -1,96 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ВОЛНА·7 — аналоговый синтезатор</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ВОЛНА·7 — аналоговый синтезатор</title>
+<meta name="description" content="ВОЛНА·7 — семиголосный аналоговый синтезатор с OLED-осциллографом и корпусом из алюминия и ореха.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-  <div class="curtain"><span>Волна</span></div>
-  <div class="glow"></div>
-
-  <nav class="nav">
-    <a class="logo" href="index.html" data-label="Волна"><i></i>ВОЛНА·7</a>
-    <div class="menu">
-      <a href="index.html" data-label="Главная">Главная</a>
-      <a href="product.html" data-label="Устройство">Устройство</a>
-      <a href="gallery.html" data-label="Истории">Истории</a>
-      <a href="order.html" data-label="Заказ">Заказ</a>
-    </div>
+<header class="gnav">
+  <nav class="gnav-inner" aria-label="Разделы">
+    <a class="brand" href="index.html">ВОЛНА·7</a>
+    <ul class="gnav-links">
+      <li><a href="index.html" aria-current="page">Обзор</a></li>
+      <li><a href="sound.html">Звук</a></li>
+      <li class="optional"><a href="../">КТ</a></li>
+    </ul>
+    <a class="gnav-buy" href="buy.html">Купить</a>
   </nav>
+</header>
 
-  <header class="hero">
-    <canvas id="scope"></canvas>
-    <div class="wrap">
-      <p class="eyebrow">Аналоговый синтезатор · 2026</p>
-      <div class="hero-grid">
-        <h1 class="display" data-accent="1">Волна семь</h1>
-        <div class="hero-meta">
-          <div><b>7</b> голосов полифонии</div>
-          <div><b>2</b> аналоговых осциллятора</div>
-          <div><b>61</b> клавиша</div>
+<main>
+  <section class="hero">
+    <div class="wrap center">
+      <p class="eyebrow reveal">Новинка</p>
+      <h1 class="headline reveal">ВОЛНА·7</h1>
+      <p class="lede reveal">Семь голосов. Один характер.</p>
+      <div class="ctas reveal">
+        <a class="cta-pill" href="buy.html">Купить</a>
+        <a class="cta-link" href="sound.html">Послушать</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="chapter" aria-label="Синтезатор крупным планом">
+    <div class="scene">
+      <div class="scene-product" id="product">
+        <div class="tilt" id="tilt"><div class="float" id="synth"></div></div>
+        <ul class="callouts" aria-label="Особенности">
+          <li class="callout" style="--x: 4%; --y: -22%;" data-at="0.18"><strong>OLED-осциллограф</strong>Видно, как звучит каждая нота.</li>
+          <li class="callout" style="--x: 40%; --y: -22%;" data-at="0.34"><strong>Фильтр 24 дБ/окт</strong>Тёплый, как у классики семидесятых.</li>
+          <li class="callout" style="--x: 4%; --y: 100%;" data-at="0.5"><strong>Колёса высоты и модуляции</strong>Играйте интонацией, а не только нотами.</li>
+          <li class="callout" style="--x: 62%; --y: 100%;" data-at="0.66"><strong>37 клавиш с послекасанием</strong>Нажмите сильнее — звук откликнется.</li>
+        </ul>
+      </div>
+      <p class="scene-hint" id="scene-hint">Нажмите <span class="kbd">A</span>…<span class="kbd">K</span> — синтезатор сыграет. Или щёлкните по клавишам.</p>
+    </div>
+  </section>
+
+  <section class="wipe" id="wipe" aria-label="Звук">
+    <div class="wipe-scene">
+      <p class="wipe-line"><span>Звук, который</span></p>
+      <p class="wipe-line"><span>чувствуешь</span></p>
+      <p class="wipe-line accent"><span>кожей.</span></p>
+    </div>
+  </section>
+
+  <section class="listen" data-theme="dark" id="listen" aria-labelledby="listen-title">
+    <div class="wrap center">
+      <h2 class="section-title reveal" id="listen-title">Слушайте.</h2>
+      <p class="lede reveal">Два осциллятора на&nbsp;голос, расстроенные на&nbsp;семь центов. Сыграйте&nbsp;— и&nbsp;волна появится на&nbsp;экране.</p>
+      <div class="scope-card reveal">
+        <canvas class="scope" id="scope" aria-label="Осциллограф"></canvas>
+        <div class="waves" role="radiogroup" aria-label="Форма волны">
+          <button type="button" role="radio" aria-checked="false" data-wave="sine"><span class="kbd">1</span>Синус</button>
+          <button type="button" role="radio" aria-checked="false" data-wave="triangle"><span class="kbd">2</span>Треугольник</button>
+          <button type="button" role="radio" aria-checked="true" data-wave="sawtooth"><span class="kbd">3</span>Пила</button>
+          <button type="button" role="radio" aria-checked="false" data-wave="square"><span class="kbd">4</span>Меандр</button>
         </div>
+        <div class="minikeys" id="minikeys" aria-label="Клавиатура"></div>
       </div>
-      <div class="piano" id="piano">
-        <div class="key" data-note="0" data-k="a">A</div>
-        <div class="key black" data-note="1" data-k="w">W</div>
-        <div class="key" data-note="2" data-k="s">S</div>
-        <div class="key black" data-note="3" data-k="e">E</div>
-        <div class="key" data-note="4" data-k="d">D</div>
-        <div class="key" data-note="5" data-k="f">F</div>
-        <div class="key black" data-note="6" data-k="t">T</div>
-        <div class="key" data-note="7" data-k="g">G</div>
-        <div class="key black" data-note="8" data-k="y">Y</div>
-        <div class="key" data-note="9" data-k="h">H</div>
-        <div class="key black" data-note="10" data-k="u">U</div>
-        <div class="key" data-note="11" data-k="j">J</div>
-        <div class="key" data-note="12" data-k="k">K</div>
-      </div>
-    </div>
-  </header>
-
-  <div class="ticker">
-    <div>
-      <span>Тёплый звук <b>•</b></span><span>Семь голосов <b>•</b></span><span>Аналоговый фильтр 24 дБ <b>•</b></span><span>Деревянные боковины <b>•</b></span><span>Собрано вручную <b>•</b></span><span>Два года гарантии <b>•</b></span>
-    </div>
-  </div>
-
-  <section class="section">
-    <div class="wrap split">
-      <div class="reveal">
-        <p class="eyebrow">Зачем</p>
-        <h2 class="h2">Звук, который слышно кожей</h2>
-      </div>
-      <div class="reveal" style="transition-delay: .15s">
-        <p class="lead">Мы не строили цифровую копию прошлого. ВОЛНА·7 — это полностью аналоговый сигнальный путь, семь независимых голосов и фильтр, который поёт на самоосцилляции. Корпус из тёплого ореха и алюминия сделан так, чтобы инструмент хотелось трогать.</p>
-        <p style="margin-top:32px"><a class="btn" href="product.html" data-label="Устройство">Рассмотреть устройство <span>→</span></a></p>
-      </div>
+      <p class="listen-more reveal"><a class="cta-link" href="sound.html">Открыть студию</a></p>
     </div>
   </section>
 
-  <section class="section" style="padding-top:0">
+  <section class="bento-section" aria-labelledby="bento-title">
     <div class="wrap">
-      <div class="stats reveal">
-        <div class="stat"><b data-to="7">0</b><span>голосов полифонии</span></div>
-        <div class="stat"><b data-to="24" data-suffix=" дБ">0</b><span>крутизна фильтра на октаву</span></div>
-        <div class="stat"><b data-to="4.2" data-decimals="1" data-suffix=" кг">0</b><span>вес с деревянными боковинами</span></div>
+      <h2 class="section-title center reveal" id="bento-title">Внутри всё&nbsp;настоящее.</h2>
+      <div class="bento">
+        <article class="tile tile-big reveal"><p class="tile-num"><span data-count="7">0</span></p><p class="tile-text">голосов полифонии&nbsp;— хватит на&nbsp;аккорд в&nbsp;две руки.</p></article>
+        <article class="tile reveal"><p class="tile-num"><span data-count="14">0</span></p><p class="tile-text">аналоговых осцилляторов</p></article>
+        <article class="tile reveal"><p class="tile-num"><span data-count="24">0</span><small>дБ</small></p><p class="tile-text">крутизна фильтра на&nbsp;октаву</p></article>
+        <article class="tile tile-dark reveal"><p class="tile-num"><span data-count="128">0</span></p><p class="tile-text">пресетов от&nbsp;саунд-дизайнеров</p></article>
+        <article class="tile reveal"><p class="tile-num"><span data-count="3.4">0</span><small>кг</small></p><p class="tile-text">вместе с&nbsp;ореховыми боковинами</p></article>
       </div>
     </div>
   </section>
 
-  <footer class="wrap footer">
-    <span>© Студия ВОЛНА</span>
-    <a href="order.html" data-label="Заказ">Оформить предзаказ →</a>
-  </footer>
+  <section class="final">
+    <div class="wrap center">
+      <h2 class="section-title reveal">ВОЛНА·7.</h2>
+      <p class="lede reveal">От&nbsp;89&nbsp;990&nbsp;₽ или от&nbsp;7&nbsp;499&nbsp;₽/мес. на&nbsp;12&nbsp;месяцев.</p>
+      <div class="ctas reveal">
+        <a class="cta-pill" href="buy.html">Купить</a>
+        <a class="cta-link" href="sound.html">Послушать</a>
+      </div>
+    </div>
+  </section>
+</main>
 
-  <div class="hints">
-    <div><kbd data-key="a">A</kbd><span>…</span><kbd data-key="k">K</kbd> играть ноты</div>
-    <div><kbd data-key="Shift">Shift</kbd> форма волны</div>
-    <div><span>мышь</span> фильтр и амплитуда</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-note">ВОЛНА·7&nbsp;— вымышленный продукт, сделанный для итогового проекта по&nbsp;курсу «JavaScript DOM». Звук синтезируется прямо в&nbsp;браузере через Web Audio API.</p>
+    <div class="footer-cols">
+      <div><h3>Синтезатор</h3><ul><li><a href="index.html">Обзор</a></li><li><a href="sound.html">Звук</a></li><li><a href="buy.html">Купить</a></li></ul></div>
+      <div><h3>Управление</h3><ul><li>A…K&nbsp;— ноты</li><li>1…4&nbsp;— форма волны</li><li>Мышь&nbsp;— клавиши и наклон</li></ul></div>
+      <div><h3>Проект</h3><ul><li><a href="../">Все контрольные точки</a></li><li>Мхитарян Тигран</li></ul></div>
+    </div>
+    <p class="footer-legal">КТ №6 · Многостраничный промо-сайт с&nbsp;динамическими эффектами.</p>
   </div>
+</footer>
 
-  <script src="js/common.js"></script>
-  <script src="js/home.js"></script>
+<script src="js/common.js"></script>
+<script src="js/synth.js"></script>
+<script src="js/home.js"></script>
 </body>
 </html>

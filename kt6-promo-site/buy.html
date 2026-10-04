@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Купить — ВОЛНА·7</title>
+<meta name="description" content="Выберите отделку и комплектацию ВОЛНА·7 и оформите заказ.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/buy.css">
+</head>
+<body>
+<header class="gnav">
+  <nav class="gnav-inner" aria-label="Разделы">
+    <a class="brand" href="index.html">ВОЛНА·7</a>
+    <ul class="gnav-links">
+      <li><a href="index.html">Обзор</a></li>
+      <li><a href="sound.html">Звук</a></li>
+      <li class="optional"><a href="../">КТ</a></li>
+    </ul>
+    <a class="gnav-buy" href="buy.html" aria-current="page">Купить</a>
+  </nav>
+</header>
+
+<main class="buy">
+  <div class="buy-head wrap">
+    <p class="eyebrow">Купить</p>
+    <h1 class="section-title">Выберите свою ВОЛНА·7.</h1>
+  </div>
+
+  <div class="buy-grid wrap">
+    <div class="stage" id="stage">
+      <div class="stage-product" id="turn">
+        <div class="stage-synth" id="synth"></div>
+      </div>
+      <p class="stage-name" id="stage-name">Алюминий · Стандарт</p>
+      <p class="stage-hint">Потяните синтезатор мышью, чтобы рассмотреть. <span class="kbd">←</span> <span class="kbd">→</span>&nbsp;— отделка.</p>
+    </div>
+
+    <div class="steps">
+      <section class="step" aria-labelledby="finish-title">
+        <h2 id="finish-title">Отделка. <span>Какая вам ближе?</span></h2>
+        <div class="swatches" id="swatches" role="radiogroup" aria-labelledby="finish-title"></div>
+      </section>
+
+      <section class="step" aria-labelledby="kit-title">
+        <h2 id="kit-title">Комплектация. <span>Что положить в&nbsp;коробку?</span></h2>
+        <div class="kits" role="radiogroup" aria-labelledby="kit-title">
+          <button class="kit" type="button" role="radio" aria-checked="true" data-kit="standard" data-price="89990">
+            <span class="kit-name">Стандарт</span>
+            <span class="kit-desc">Синтезатор, кабель USB-C, блок питания</span>
+            <span class="kit-price">89&nbsp;990&nbsp;₽</span>
+          </button>
+          <button class="kit" type="button" role="radio" aria-checked="false" data-kit="studio" data-price="104990">
+            <span class="kit-name">Студия</span>
+            <span class="kit-desc">Плюс ореховая крышка, стойка и&nbsp;педаль сустейна</span>
+            <span class="kit-price">104&nbsp;990&nbsp;₽</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="step" aria-labelledby="qty-title">
+        <h2 id="qty-title">Количество.</h2>
+        <div class="stepper" role="group" aria-labelledby="qty-title">
+          <button type="button" id="minus" aria-label="Меньше">−</button>
+          <output id="qty" aria-live="polite">1</output>
+          <button type="button" id="plus" aria-label="Больше">+</button>
+        </div>
+      </section>
+
+      <section class="summary" aria-live="polite">
+        <div class="summary-row"><span>Итого</span><strong class="total" id="total">89 990 ₽</strong></div>
+        <p class="monthly" id="monthly">или 7 499 ₽/мес. на 12 месяцев</p>
+        <p class="ship">Доставка завтра, бесплатно. Возврат в&nbsp;течение 14&nbsp;дней.</p>
+        <button class="cta-pill wide" type="button" id="checkout">Оформить заказ</button>
+      </section>
+
+      <form class="order" id="order" novalidate hidden>
+        <h2>Куда доставить?</h2>
+        <label class="field"><span>Имя</span><input name="name" autocomplete="name" required><em></em></label>
+        <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required><em></em></label>
+        <label class="field"><span>Город</span><input name="city" autocomplete="address-level2" required><em></em></label>
+        <button class="cta-pill wide" type="submit">Подтвердить заказ</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<dialog class="done" id="done" aria-labelledby="done-title">
+  <svg class="check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+  <h2 id="done-title">Заказ оформлен.</h2>
+  <p id="done-text"></p>
+  <form method="dialog"><button class="cta-pill">Готово</button></form>
+</dialog>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-note">Это учебный проект: заказ никуда не&nbsp;отправляется, а&nbsp;цены вымышлены.</p>
+    <div class="footer-cols">
+      <div><h3>Синтезатор</h3><ul><li><a href="index.html">Обзор</a></li><li><a href="sound.html">Звук</a></li><li><a href="buy.html">Купить</a></li></ul></div>
+      <div><h3>Управление</h3><ul><li>← →&nbsp;— отделка</li><li>+ / −&nbsp;— количество</li><li>Мышь&nbsp;— поворот</li></ul></div>
+      <div><h3>Проект</h3><ul><li><a href="../">Все контрольные точки</a></li><li>Мхитарян Тигран</li></ul></div>
+    </div>
+    <p class="footer-legal">КТ №6 · Многостраничный промо-сайт с&nbsp;динамическими эффектами.</p>
+  </div>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/synth.js"></script>
+<script src="js/buy.js"></script>
+</body>
+</html>
